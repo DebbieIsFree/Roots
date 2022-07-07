@@ -7,7 +7,7 @@ import java.net.URISyntaxException;
 public class SocketApplication {
     static Socket socket;
     public static Socket get() throws URISyntaxException {
-        socket = IO.socket("172.10.5.152:443");
+        socket = IO.socket("http://172.10.5.152:443");
         return socket;
     }
 }
