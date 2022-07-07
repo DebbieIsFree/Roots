@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,11 +20,17 @@ import com.example.project2.databinding.FragmentRecommendationBinding;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+
 public class RecommendationFragment extends Fragment {
 
     // Add RecyclerView member
     private RecyclerView recyclerView;
     Adapter adapter;
+    Socket socket;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,6 +38,20 @@ public class RecommendationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recommendation, container, false);
 
         // Add the following lines to create RecyclerView
+
+        Button connectButton = (Button)view.findViewById(R.id.connect_button);
+        connectButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                try {
+                    socket = SocketApplication.get();
+                    socket.connect();
+                    socket.emit("message", "hello");
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
@@ -50,5 +72,4 @@ public class RecommendationFragment extends Fragment {
 
         return view;
     }
-
 }

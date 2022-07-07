@@ -21,10 +21,6 @@ import com.example.project2.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
