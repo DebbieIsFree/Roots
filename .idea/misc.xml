@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/wldnj/AndroidStudioProjects/project2/app/src/main/res/drawable/black_radius.xml" value="0.2255" />
+        <entry key="..\:/Users/wldnj/AndroidStudioProjects/project2/app/src/main/res/layout/activity_main.xml" value="0.21603260869565216" />
+        <entry key="..\:/Users/wldnj/AndroidStudioProjects/project2/app/src/main/res/layout/content_main.xml" value="0.22554347826086957" />
         <entry key="..\:/Users/wldnj/AndroidStudioProjects/project2/app/src/main/res/layout/fragment_ranking.xml" value="0.16802536231884058" />
+        <entry key="..\:/Users/wldnj/AndroidStudioProjects/project2/app/src/main/res/layout/rankingdata.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/wldnj/AndroidStudioProjects/project2/app/src/main/res/menu/menu_main.xml" value="0.33541666666666664" />
       </map>
     </option>
   </component>
