@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
@@ -20,14 +21,15 @@ import com.example.project2.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
-    //
-    private FragmentStatePagerAdapter vpAdapter = null;
-    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
