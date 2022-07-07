@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.project2.databinding.FragmentSecondBinding;
+import com.example.project2.databinding.FragmentRecommendationBinding;
 
-public class SecondFragment extends Fragment {
+public class RecommendationFragment extends Fragment {
 
-    private FragmentSecondBinding binding;
+    private FragmentRecommendationBinding binding;
 
     @Override
     public View onCreateView(
@@ -21,7 +21,7 @@ public class SecondFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSecondBinding.inflate(inflater, container, false);
+        binding = FragmentRecommendationBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -32,7 +32,7 @@ public class SecondFragment extends Fragment {
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(SecondFragment.this)
+                NavHostFragment.findNavController(RecommendationFragment.this)
                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }
         });
