@@ -1,24 +1,26 @@
 package com.example.project2;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import com.example.project2.databinding.ActivityMainBinding;
+
 import com.google.android.material.tabs.TabLayout;
 
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
     private FragmentTransaction transaction;
     private FragmentManager fragmentManager = getSupportFragmentManager();
-    RankingFragment Rankingfragment;
-    RecommendationFragment Recommendataionfragment;
+    RankingFragment rankingFragment;
+    RecommendationFragment recommendataionFragment;
+    HomeFragment homeFragment;
     TabLayout tabs;
 
 
@@ -30,13 +32,15 @@ public class MainActivity extends AppCompatActivity {
         tabs = (TabLayout) findViewById(R.id.tabs);
         transaction = fragmentManager.beginTransaction();
 
-        Rankingfragment = new RankingFragment();
-        Recommendataionfragment = new RecommendationFragment();
+        homeFragment = new HomeFragment();
+        rankingFragment = new RankingFragment();
+        recommendataionFragment = new RecommendationFragment();
 
+        tabs.addTab(tabs.newTab().setText("Home"));
         tabs.addTab(tabs.newTab().setText("Ranking"));
         tabs.addTab(tabs.newTab().setText("Recommendation"));
 
-        fragmentManager.beginTransaction().add(R.id.frame, Rankingfragment).commit();
+        fragmentManager.beginTransaction().add(R.id.frame, homeFragment).commit();
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -45,12 +49,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("position","${position}");
 
                 if(position == 0){
-//                    transaction.replace(R.id.frame, Rankingfragment, null);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame, Rankingfragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commit();
+                }
+                else if(position == 1){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame, rankingFragment).commit();
                 }
                 else{
-//                    transaction.replace(R.id.frame, Recommendataionfragment, null);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame, Recommendataionfragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame, recommendataionFragment).commit();
                 }
             }
             @Override
@@ -64,6 +69,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.find_button:
+                findButtonPushed();
+                return true;
+            case R.id.profile_button:
+                profileButtonPushed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void findButtonPushed() {
+        Intent intent = new Intent(getApplicationContext(), FindActivity.class);
+        startActivity(intent);
+    }
+
+    public void profileButtonPushed() {
+        Intent intent = new Intent(getApplicationContext(), FindActivity.class);
+    }
+
 
     public TabLayout getTabs() {
         return tabs;
