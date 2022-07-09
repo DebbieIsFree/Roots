@@ -51,6 +51,15 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistViewHolder> {
         holder.text_music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlayingMusic.class);
+                context.startActivity(intent);
+            }
+        });
+        holder.text_singer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlayingMusic.class);
+                context.startActivity(intent);
             }
         });
     }

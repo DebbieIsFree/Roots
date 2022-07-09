@@ -1,19 +1,11 @@
 package com.example.project2;
 
-import static android.content.ContentValues.TAG;
-
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,22 +14,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
-import com.kakao.auth.IApplicationConfig;
-import com.kakao.auth.KakaoAdapter;
-import com.kakao.auth.KakaoSDK;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.Account;
 import com.kakao.util.helper.Utility;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 public class MainActivity extends AppCompatActivity {
     private FragmentTransaction transaction;
     private FragmentManager fragmentManager = getSupportFragmentManager();
-    RankingFragment rankingFragment;
-    RecommendationFragment recommendataionFragment;
+    RecommendationFragment rankingFragment;
+    RankingFragment recommendataionFragment;
     HomeFragment homeFragment;
     TabLayout tabs;
 
@@ -53,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
         transaction = fragmentManager.beginTransaction();
 
         homeFragment = new HomeFragment();
-        rankingFragment = new RankingFragment();
-        recommendataionFragment = new RecommendationFragment();
+        rankingFragment = new RecommendationFragment();
+        recommendataionFragment = new RankingFragment();
 
         tabs.addTab(tabs.newTab().setText("Home"));
-        tabs.addTab(tabs.newTab().setText("Ranking"));
         tabs.addTab(tabs.newTab().setText("Recommendation"));
+        tabs.addTab(tabs.newTab().setText("Ranking"));
 
         fragmentManager.beginTransaction().add(R.id.frame, homeFragment).commit();
 

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 
 import com.example.project2.R;
 
@@ -21,16 +22,19 @@ public class PlayingMusic extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
     private boolean initalStage = true;
+    SeekBar seekBar;
 
-    String url = "http://172.10.5.152:443/project2/musics/No Roots.mp3"; // 서버 음악파일 경로
+    String url = "http://192.249.18.200:80/musics/No_Roots.wav"; // 서버 음악파일 경로
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_playing_music);
+
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         progressDialog = new ProgressDialog(this);
+
         btn = (Button) findViewById(R.id.audioStreamBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +49,7 @@ public class PlayingMusic extends AppCompatActivity {
                         }
                     }
                     playPause = true;
+                    seekbarSetting();
                 } else {
                     btn.setText("Launch Streaming");
                     if(mediaPlayer.isPlaying()){
@@ -55,6 +60,11 @@ public class PlayingMusic extends AppCompatActivity {
             }
         });
     }
+
+    public void playClicked(View v) {
+
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -64,6 +74,11 @@ public class PlayingMusic extends AppCompatActivity {
             mediaPlayer = null;
         }
     }
+
+    public void seekbarSetting(){
+
+    }
+
     class Player extends AsyncTask<String, Void, Boolean>{
         @Override
         protected void onPreExecute() {
@@ -71,6 +86,7 @@ public class PlayingMusic extends AppCompatActivity {
             progressDialog.setMessage("Buffering...");
             progressDialog.show();
         }
+
         @Override
         protected Boolean doInBackground(String... strings) {
             Boolean prepared = false;

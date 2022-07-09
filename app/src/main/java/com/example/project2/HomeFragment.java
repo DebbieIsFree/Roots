@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(layoutManager);
 
-        playlistAdapter = new PlaylistAdapter(getActivity().getApplicationContext());
+        playlistAdapter = new PlaylistAdapter(getContext());
 
         for(int i = 0; i < 50; i++){
             JSONObject jsonObject = new JSONObject();
