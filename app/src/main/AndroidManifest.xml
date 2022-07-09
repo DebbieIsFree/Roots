@@ -21,16 +21,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".PlaylistActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Login"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".PlayingMusic"
             android:exported="false" />
         <activity
-            android:name=".FindActivity"
+            android:name=".SearchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -40,13 +43,15 @@
             android:usesCleartextTraffic="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <!--Redirect URI: "kakao{NATIVE_APP_KEY}://oauth"-->
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth" -->
                 <data
                     android:host="oauth"
-                    android:scheme="66c73d1ffb687ec245df9b96fff1b887"/>
+                    android:scheme="66c73d1ffb687ec245df9b96fff1b887" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

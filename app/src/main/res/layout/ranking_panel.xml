@@ -9,8 +9,7 @@
     tools:layout_editor_absoluteY="1dp">
 
     <ImageView
-        android:contentDescription="@string/musicImage"
-        android:id="@+id/imageView"
+        android:id="@+id/music_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_weight="1"

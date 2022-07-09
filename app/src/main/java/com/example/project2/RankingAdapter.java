@@ -16,11 +16,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<RankingViewHolder> {
+public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder> {
     private ArrayList<JSONObject> arrayList;
     Context context;
 
-    public PlaylistAdapter(Context context) {
+    public RankingAdapter(Context context) {
         this.context = context;
         arrayList = new ArrayList<>();
     }

@@ -1,6 +1,7 @@
 package com.example.project2;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.project2.R;
 import com.google.gson.Gson;
@@ -33,18 +35,34 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PlayingMusic extends AppCompatActivity {
     private Button btn;
     private Button getMusicListButton;
+    private Button backButton;
     private boolean playPause;
     private MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
     private boolean initalStage = true;
     SeekBar seekBar;
 
-    String url = "http://192.249.18.200:80/musics/No_Roots.wav"; // 서버 음악파일 경로
+    TextView nameText;
+    TextView singerText;
+
+    String baseurl = "http://192.249.18.200:80/musics/"; // 서버 음악파일 경로
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
+
+        Intent getIntent = getIntent();
+        url = baseurl + getIntent.getStringExtra("musicName") + ".wav";
+
+        System.out.println(url);
+
+
+        nameText = (TextView) findViewById(R.id.name_text);
+        singerText = (TextView) findViewById(R.id.singer_text);
+        nameText.setText(getIntent.getStringExtra("musicName"));
+        singerText.setText(getIntent.getStringExtra("singerName"));
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
@@ -90,7 +108,7 @@ public class PlayingMusic extends AppCompatActivity {
                 Gson gson = new GsonBuilder().setLenient().create();
 
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://192.249.18.200:80/")
+                        .baseUrl(getResources().getString(R.string.address))
                         .addConverterFactory(GsonConverterFactory.create(gson))
                         .build();
 
@@ -118,6 +136,26 @@ public class PlayingMusic extends AppCompatActivity {
             }
         });
 
+        backButton = (Button) findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.pause();
+                    try{
+                        Thread.sleep(500); // 1초마다 시크바 움직이게 함
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                playPause = false;
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("caller", getIntent.getStringExtra("caller"));
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void playClicked(@NonNull SeekBar seekBar1, @NonNull MediaPlayer mp) {
@@ -140,7 +178,7 @@ public class PlayingMusic extends AppCompatActivity {
             public void run() {
                 while(mp.isPlaying()){  // 음악이 실행중일때 계속 돌아가게 함
                     try{
-                        Thread.sleep(1000); // 1초마다 시크바 움직이게 함
+                        Thread.sleep(500); // 1초마다 시크바 움직이게 함
                     } catch(Exception e){
                         e.printStackTrace();
                     }

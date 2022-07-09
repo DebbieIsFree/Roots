@@ -29,7 +29,7 @@ public class RankingFragment extends Fragment {
 
     // Add RecyclerView member
     private RecyclerView recyclerView;
-    Adapter adapter;
+    RankingAdapter rankingAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class RankingFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        adapter = new Adapter(getActivity().getApplicationContext());
+        rankingAdapter = new RankingAdapter(getActivity().getApplicationContext());
 
         Gson gson = new GsonBuilder().setLenient().create();
 
@@ -64,15 +64,15 @@ public class RankingFragment extends Fragment {
                     for(int i = 0; i < result.size(); i++){
                         JSONObject jsonObject = new JSONObject();
                         try {
-                            jsonObject.put("music", result.get(i));
+                            jsonObject.put("music", result.get(i).replace(".wav", ""));
                             jsonObject.put("singer", Integer.toString(i));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        adapter.setArrayData(jsonObject);
+                        rankingAdapter.setArrayData(jsonObject);
                     }
-                    recyclerView.setAdapter(adapter);
+                    recyclerView.setAdapter(rankingAdapter);
 
                 }
                 else{
@@ -127,9 +127,6 @@ public class RankingFragment extends Fragment {
             public void onClick(View v){
             }
         });
-
-
-
 
         return view;
     }

@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    PlaylistAdapter playlistAdapter;
+    PlaylistCoverAdapter playlistCoverAdapter;
 
     public HomeFragment() {
     }
@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(layoutManager);
 
-        playlistAdapter = new PlaylistAdapter(getContext());
+        playlistCoverAdapter = new PlaylistCoverAdapter(getContext());
 
         for(int i = 0; i < 50; i++){
             JSONObject jsonObject = new JSONObject();
@@ -44,9 +44,9 @@ public class HomeFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            playlistAdapter.setArrayData(jsonObject);
+            playlistCoverAdapter.setArrayData(jsonObject);
         }
-        recyclerView.setAdapter(playlistAdapter);
+        recyclerView.setAdapter(playlistCoverAdapter);
 
         Button button = (Button)view.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener(){

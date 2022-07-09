@@ -14,8 +14,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
-import com.kakao.sdk.user.UserApiClient;
-import com.kakao.sdk.user.model.Account;
 import com.kakao.util.helper.Utility;
 
 
@@ -73,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
                 // TODO : 이미 선택된 tab이 다시
             }
+
+
         });
     }
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void findButtonPushed() {
-        Intent intent = new Intent(getApplicationContext(), FindActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
         startActivity(intent);
     }
 
