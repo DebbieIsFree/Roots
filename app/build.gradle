@@ -65,6 +65,7 @@ dependencies {
 
     implementation "com.kakao.sdk:v2-all:2.11.0"
 
+
     implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.30.5'
 
     implementation 'com.kakao.sdk:usermgmt:1.27.0'
