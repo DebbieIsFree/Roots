@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.project2.R;
@@ -44,6 +45,8 @@ public class PlayingMusic extends AppCompatActivity {
 
     TextView nameText;
     TextView singerText;
+
+    Switch LikeSwitch;
 
     String baseurl = "http://192.249.18.200:80/musics/"; // 서버 음악파일 경로
     String url;
@@ -156,6 +159,44 @@ public class PlayingMusic extends AppCompatActivity {
             }
         });
 
+        LikeSwitch = (Switch) findViewById(R.id.LikeSwitch);
+        LikeSwitch.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Gson gson = new GsonBuilder().setLenient().create();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://192.249.18.200:80/")
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+
+                RetrofitService service1 = retrofit.create(RetrofitService.class);
+
+                TextView name = (TextView) findViewById(R.id.name_text);
+                TextView singer = (TextView) findViewById(R.id.singer_text);
+
+
+                Call<List<String>> call = service1.postLike(name.getText().toString(), singer.getText().toString(), "");
+
+                call.enqueue(new Callback<List<String>>(){
+                    @Override
+                    public void onResponse(Call<List<String>> call, Response<List<String>> response){
+                        if(response.isSuccessful()){
+                            List<String> result = response.body();
+                            Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
+                        }
+                        else{
+                            Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<String>> call, Throwable t){
+                        Log.d("MY TAG", "onFailure: "+t.getMessage());
+                    }
+                });
+            }
+        });
     }
 
     public void playClicked(@NonNull SeekBar seekBar1, @NonNull MediaPlayer mp) {
@@ -198,7 +239,6 @@ public class PlayingMusic extends AppCompatActivity {
             mediaPlayer = null;
         }
     }
-
     class Player extends AsyncTask<String, Void, Boolean>{
         @Override
         protected void onPreExecute() {
