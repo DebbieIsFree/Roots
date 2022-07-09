@@ -6,6 +6,9 @@ import java.lang.reflect.Array;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -18,13 +21,10 @@ public interface RetrofitService {
     @GET("music-list")
     Call<List<String>> getMusicListData();
 
+    @FormUrlEncoded
     @POST("register")
-    Call<List<String>> register(@Query("profile_nickname") String profile_nickname,
-                                @Query("profile_image") String profile_image,
-                                @Query("account_email") String account_email,
-                                @Query("gender") String gender,
-                                @Query("age_range") String age_range ,
-                                @Query("birthday") String birthday);
+    Call<Integer> register(@Field("profile_nickname") String profile_nickname,
+                                @Field("profile_image") String profile_image);
 
     @POST("check-like")
     Call<List<String>> postLike(@Query("name") String name,

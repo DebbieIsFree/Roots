@@ -1,5 +1,7 @@
 package com.example.project2;
 
+import static com.kakao.usermgmt.StringSet.nickname;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,6 +33,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,30 +111,31 @@ public class LoginActivity extends AppCompatActivity {
 
             RetrofitService service1 = retrofit.create(RetrofitService.class);
 
-            Map<String, String> properties = user.getProperties();
+//            Log.d("Properties", String.valueOf(user.getProperties()));
 
-            Log.d("Properties", String.valueOf(user.getProperties()));
-            Log.d("Map", String.valueOf(properties));
+//            Log.d("11111111111", String.valueOf(user.getProperties().get("nickname")));
+//            Log.d("11111111111", String.valueOf(user.getProperties().get("profile_image")));
 
-//            Call<List<String>> call = service1.register();
-//
-//            call.enqueue(new Callback<List<String>>(){
-//                @Override
-//                public void onResponse(Call<List<String>> call, Response<List<String>> response){
-//                    if(response.isSuccessful()){
-//                        List<String> result = response.body();
-//                        Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
-//                    }
-//                    else{
-//                        Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<List<String>> call, Throwable t){
-//                    Log.d("MY TAG", "onFailure: "+t.getMessage());
-//                }
-//            });
+            Call<Integer> call = service1.register(String.valueOf(user.getProperties().get("nickname")),
+                    String.valueOf(user.getProperties().get("profile_image")));
+
+            call.enqueue(new Callback<Integer>(){
+                @Override
+                public void onResponse(Call<Integer> call, Response<Integer> response){
+                    if(response.isSuccessful()){
+                        Integer result = response.body();
+                        Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
+                    }
+                    else{
+                        Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Integer> call, Throwable t){
+                    Log.d("MY TAG", "onFailure: "+t.getMessage());
+                }
+            });
 
             return null;
         });
