@@ -24,13 +24,10 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
-            android:exported="false"></activity>
-        <activity
             android:name=".PlayingMusic"
             android:exported="false" />
         <activity
-            android:name=".FindActivity"
+            android:name=".SearchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -40,20 +37,24 @@
             android:usesCleartextTraffic="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <!--Redirect URI: "kakao{NATIVE_APP_KEY}://oauth"-->
-                <data
-                    android:host="oauth"
-                    android:scheme="66c73d1ffb687ec245df9b96fff1b887"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="66c73d1ffb687ec245df9b96fff1b887" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth" -->
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao66c73d1ffb687ec245df9b96fff1b887" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
