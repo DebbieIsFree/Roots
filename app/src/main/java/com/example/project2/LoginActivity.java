@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.KakaoSDK;
 import com.kakao.auth.Session;
@@ -16,8 +18,19 @@ import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.Account;
 import com.kakao.util.exception.KakaoException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class LoginActivity extends AppCompatActivity {
-    com.kakao.usermgmt.LoginButton kakaoBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +39,15 @@ public class LoginActivity extends AppCompatActivity {
 
         Button btn = findViewById(R.id.btn2);
 
-        Log.d("kakaologin" ,"kakao login0");
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("kakaologin" ,"kakao login0");
                 if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(getApplicationContext())){
                     login();
                 }
                 else{
                     accountLogin();
-                    Log.d("kakaologin", "kakao login0");
+
                 }
             }
         });
@@ -66,10 +77,10 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
                 getUserInfo();
             }
-            Log.d("kakaologin", "kakao login0");
             return null;
         });
     }
+
     public void getUserInfo(){
         String TAG = "getUserInfo()";
         UserApiClient.getInstance().me((user, meError) -> {
@@ -85,7 +96,42 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 Account user1 = user.getKakaoAccount();
                 System.out.println("사용자 계정" + user1);
+
             }
+            Gson gson = new GsonBuilder().setLenient().create();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://192.249.18.200:80/")
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+
+            RetrofitService service1 = retrofit.create(RetrofitService.class);
+
+            Map<String, String> properties = user.getProperties();
+
+            Log.d("Properties", String.valueOf(user.getProperties()));
+            Log.d("Map", String.valueOf(properties));
+
+//            Call<List<String>> call = service1.register();
+//
+//            call.enqueue(new Callback<List<String>>(){
+//                @Override
+//                public void onResponse(Call<List<String>> call, Response<List<String>> response){
+//                    if(response.isSuccessful()){
+//                        List<String> result = response.body();
+//                        Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
+//                    }
+//                    else{
+//                        Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<String>> call, Throwable t){
+//                    Log.d("MY TAG", "onFailure: "+t.getMessage());
+//                }
+//            });
+
             return null;
         });
     }

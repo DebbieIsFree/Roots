@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.project2.R;
 import com.google.gson.Gson;
@@ -33,6 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PlayingMusic extends AppCompatActivity {
     private Button btn;
     private Button getMusicListButton;
+    private Switch LikeSwitch;
     private boolean playPause;
     private MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
@@ -97,6 +100,45 @@ public class PlayingMusic extends AppCompatActivity {
                 RetrofitService service1 = retrofit.create(RetrofitService.class);
 
                 Call<List<String>> call = service1.getMusicListData();
+
+                call.enqueue(new Callback<List<String>>(){
+                    @Override
+                    public void onResponse(Call<List<String>> call, Response<List<String>> response){
+                        if(response.isSuccessful()){
+                            List<String> result = response.body();
+                            Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
+                        }
+                        else{
+                            Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<String>> call, Throwable t){
+                        Log.d("MY TAG", "onFailure: "+t.getMessage());
+                    }
+                });
+            }
+        });
+
+        LikeSwitch = (Switch) findViewById(R.id.LikeSwitch);
+        LikeSwitch.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Gson gson = new GsonBuilder().setLenient().create();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://192.249.18.200:80/")
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+
+                RetrofitService service1 = retrofit.create(RetrofitService.class);
+
+                TextView name = (TextView) findViewById(R.id.textView3);
+                TextView singer = (TextView) findViewById(R.id.textView4);
+
+
+                Call<List<String>> call = service1.postLike(name.getText().toString(), singer.getText().toString(), "");
 
                 call.enqueue(new Callback<List<String>>(){
                     @Override
