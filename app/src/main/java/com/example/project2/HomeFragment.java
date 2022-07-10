@@ -43,7 +43,6 @@ public class HomeFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             playlistCoverAdapter.setArrayData(jsonObject);
         }
         recyclerView.setAdapter(playlistCoverAdapter);

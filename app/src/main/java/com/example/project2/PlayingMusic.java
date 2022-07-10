@@ -2,10 +2,11 @@ package com.example.project2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
-import android.renderscript.Sampler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,20 +15,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.project2.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,8 +48,13 @@ public class PlayingMusic extends AppCompatActivity {
     private boolean initalStage = true;
     SeekBar seekBar;
 
+    ImageView albumImage;
     TextView nameText;
     TextView singerText;
+
+    String name;
+    String singer;
+    List<String> comment;
 
     Switch LikeSwitch;
 
@@ -68,6 +75,46 @@ public class PlayingMusic extends AppCompatActivity {
 
         nameText = (TextView) findViewById(R.id.name_text);
         singerText = (TextView) findViewById(R.id.singer_text);
+        albumImage = (ImageView) findViewById(R.id.album_image);
+
+        Gson gson = new GsonBuilder().setLenient().create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.address))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        RetrofitService service1 = retrofit.create(RetrofitService.class);
+
+        Call<MusicData> getMusicDataCall = service1.getMusicData(getIntent.getStringExtra("musicName"));
+
+        getMusicDataCall.enqueue(new Callback<MusicData>(){
+            @Override
+            public void onResponse(Call<MusicData> getMusicDataCall, Response<MusicData> response){
+                if(response.isSuccessful()){
+                    MusicData result = response.body();
+
+                    System.out.println(result.getName());
+
+                    name = result.getName();
+                    singer = result.getSinger();
+                    comment = result.getComment();
+
+                    String imageUrl = getResources().getString(R.string.address) + "image/" + name + ".jpg";
+                    new ImageLoadTask(imageUrl, albumImage).execute();
+                    nameText.setText(name);
+                    singerText.setText(singer);
+                }
+                else{
+                    Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
+                }
+            }
+            @Override
+            public void onFailure(Call<MusicData> getMusicDataCall, Throwable t){
+                Log.d("MY TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
         nameText.setText(getIntent.getStringExtra("musicName"));
         singerText.setText(getIntent.getStringExtra("singerName"));
 
@@ -114,7 +161,7 @@ public class PlayingMusic extends AppCompatActivity {
             public void onClick(View view) {
                 if(mediaPlayer == null){
                     try{
-                        Thread.sleep(500); // 1초마다 시크바 움직이게 함
+                        Thread.sleep(500);
                     } catch(Exception e){
                         e.printStackTrace();
                     }
@@ -122,7 +169,7 @@ public class PlayingMusic extends AppCompatActivity {
                 else if(mediaPlayer.isPlaying()){
                     mediaPlayer.pause();
                     try{
-                        Thread.sleep(500); // 1초마다 시크바 움직이게 함
+                        Thread.sleep(500);
                     } catch(Exception e){
                         e.printStackTrace();
                     }
@@ -145,16 +192,6 @@ public class PlayingMusic extends AppCompatActivity {
 
         LikeSwitch = (Switch) findViewById(R.id.LikeSwitch);
 
-        Gson gson = new GsonBuilder().setLenient().create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.address))
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        RetrofitService service1 = retrofit.create(RetrofitService.class);
-
-        System.out.println(UserData.getInstance().getIdData());
         Call<String> call = service1.isMusicLike(UserData.getInstance().getIdData(), nameText.getText().toString()+".wav");
 
         call.enqueue(new Callback<String>(){
@@ -312,3 +349,39 @@ public class PlayingMusic extends AppCompatActivity {
         }
     }
 }
+
+class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+    private String url;
+    private ImageView imageView;
+
+    public ImageLoadTask(String url, ImageView imageView) {
+        this.url = url;
+        this.imageView = imageView;
+    }
+
+    @Override
+    protected Bitmap doInBackground(Void... params) {
+        try {
+            URL urlConnection = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) urlConnection
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap result) {
+        super.onPostExecute(result);
+        imageView.setImageBitmap(result);
+    }
+
+}
+

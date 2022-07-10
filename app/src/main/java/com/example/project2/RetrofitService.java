@@ -16,8 +16,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitService {
-    @GET("music")
-    Call<MusicData> getMusicData(@Query("musidId") String musicId);
+    @GET("music-data")
+    Call<MusicData> getMusicData(@Query("music_name") String music_name);
 
     @GET("is-music-like")
     Call<String> isMusicLike(@Query("kakao_id") String kakao_id,
@@ -25,6 +25,9 @@ public interface RetrofitService {
 
     @GET("music-list")
     Call<List<String>> getMusicListData();
+
+    @GET("playlist-list")
+    Call<String> getPlaylistListData(@Query("kakao_id") String kakao_id);
 
     @FormUrlEncoded
     @POST("register")
