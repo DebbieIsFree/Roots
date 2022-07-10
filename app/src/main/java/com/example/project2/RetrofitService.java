@@ -27,13 +27,21 @@ public interface RetrofitService {
     Call<List<String>> getMusicListData();
 
     @GET("playlist-list")
-    Call<String> getPlaylistListData(@Query("kakao_id") String kakao_id);
+    Call<List<String>> getPlaylistListData(@Query("kakao_id") String kakao_id);
+
+    @GET("playlist")
+    Call<PlaylistData> getPlaylistData(@Query("playlist_id") String playlist_id);
+
 
     @FormUrlEncoded
     @POST("register")
     Call<String> register(@Field("kakao_id") String kakao_id,
                            @Field("profile_nickname") String profile_nickname,
                            @Field("profile_image") String profile_image);
+
+    @FormUrlEncoded
+    @POST("new-playlist")
+    Call<String> postNewPlaylist(@Field("kakao_id") String kakao_id);
 
     @FormUrlEncoded
     @PUT("like")

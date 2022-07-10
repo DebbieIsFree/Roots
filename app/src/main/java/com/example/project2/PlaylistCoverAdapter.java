@@ -4,20 +4,31 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverViewHolder> {
-    private ArrayList<JSONObject> arrayList;
+    private ArrayList<String> arrayList;
     Context context;
 
     public PlaylistCoverAdapter(Context context) {
@@ -39,25 +50,55 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
 
     @Override
     public void onBindViewHolder(@NonNull PlaylistCoverViewHolder holder, int position) {
-        JSONObject jsonData = arrayList.get(position);
-        try {
-            holder.text_music.setText(jsonData.getString("music"));
-            holder.text_singer.setText(jsonData.getString("singer"));
-        } catch (JSONException e) {System.out.println();}
+        String playlistId = arrayList.get(position);
 
-        //전화번호부 클릭했을 때 반응
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(context.getResources().getString(R.string.address))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
 
+        RetrofitService service1 = retrofit.create(RetrofitService.class);
+        Call<PlaylistData> call = service1.getPlaylistData(UserData.getInstance().getIdData());
+        call.enqueue(new Callback<PlaylistData>(){
+            @Override
+            public void onResponse(Call<PlaylistData> call, Response<PlaylistData> response){
+                if(response.isSuccessful()){
+                    PlaylistData result = response.body();
+                    holder.text_music.setText(result.getName());
+
+                    String imageUrl = "";
+                    if(result.getPlaylist().size() == 0){
+                        imageUrl = context.getResources().getString(R.string.address) + "image/blank.jpg";
+                    }
+                    else {
+                        imageUrl = context.getResources().getString(R.string.address) + "image/" + result.getPlaylist().get(0) + ".jpg";
+                    }
+                    new ImageLoadTask(imageUrl, holder.album_image).execute();
+                }
+                else{
+                    Log.d("MY TAG", "onResponse: 실패 " + String.valueOf(response.code()));
+                }
+            }
+            @Override
+            public void onFailure(Call<PlaylistData> call, Throwable t){
+                Log.d("MY TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
+        holder.album_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
+                intent.putExtra("platlist_id", playlistId);
+                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
         holder.text_music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
-                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
-        holder.text_singer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
+                intent.putExtra("platlist_id", playlistId);
                 context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
             }
         });
@@ -69,7 +110,7 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
     }
 
     // 데이터를 입력
-    public void setArrayData(JSONObject jsonData) {
-        arrayList.add(jsonData);
+    public void setArrayData(String playlistId) {
+        arrayList.add(playlistId);
     }
 }

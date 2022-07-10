@@ -62,35 +62,17 @@ public class RankingFragment extends Fragment {
                     Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
 
                     for(int i = 0; i < result.size(); i++){
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            jsonObject.put("music", result.get(i).replace(".wav", ""));
-                            jsonObject.put("singer", Integer.toString(i));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        rankingAdapter.setArrayData(jsonObject);
+                        rankingAdapter.setArrayData(result.get(i).replace(".wav", ""));
                     }
                     recyclerView.setAdapter(rankingAdapter);
-
                 }
                 else{
                     Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
                 }
             }
-
             @Override
             public void onFailure(Call<List<String>> call, Throwable t){
                 Log.d("MY TAG", "onFailure: "+t.getMessage());
-            }
-        });
-
-
-        Button backButton = (Button)view.findViewById(R.id.back_button);
-        backButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-
             }
         });
 

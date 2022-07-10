@@ -64,20 +64,9 @@ public class PlaylistActivity extends AppCompatActivity {
                     Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
 
                     for(int i = 0; i < result.size(); i++){
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            playlist.put(result.get(i).replace(".wav", ""));
-                            jsonObject.put("music", result.get(i).replace(".wav", ""));
-                            jsonObject.put("singer", Integer.toString(i));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                        rankingAdapter.setArrayData(jsonObject);
+                        rankingAdapter.setArrayData(result.get(i).replace(".wav", ""));
                     }
                     recyclerView.setAdapter(rankingAdapter);
-
                 }
                 else{
                     Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
