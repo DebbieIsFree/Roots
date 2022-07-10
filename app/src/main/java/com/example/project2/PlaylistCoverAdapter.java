@@ -69,7 +69,7 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
 
                     String imageUrl = "";
                     if(result.getPlaylist().size() == 0){
-                        imageUrl = context.getResources().getString(R.string.address) + "image/blank.jpg";
+                        imageUrl = context.getResources().getString(R.string.address) + "image/Blank.jpg";
                     }
                     else {
                         imageUrl = context.getResources().getString(R.string.address) + "image/" + result.getPlaylist().get(0) + ".jpg";
