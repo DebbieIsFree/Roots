@@ -67,7 +67,6 @@ public class LikeListActivity extends AppCompatActivity {
         RetrofitService service1 = retrofit.create(RetrofitService.class);
 
         Call<List<String>> call = service1.getMusicListData();
-
         call.enqueue(new Callback<List<String>>(){
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response){
@@ -76,17 +75,7 @@ public class LikeListActivity extends AppCompatActivity {
                     Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
 
                     for(int i = 0; i < nameList.size(); i++){
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            if(Objects.equals(nameList.get(i), result.get(i))){
-                                jsonObject.put("music", result.get(i).replace(".wav", ""));
-                                jsonObject.put("singer", Integer.toString(i));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        rankingAdapter.setArrayData(jsonObject);
+                        rankingAdapter.setArrayData(nameList.get(i));
                     }
                     recyclerView.setAdapter(rankingAdapter);
                 }
