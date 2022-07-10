@@ -64,7 +64,7 @@ public class PlayingMusic extends AppCompatActivity {
         Intent getIntent = getIntent();
         url = baseurl + getIntent.getStringExtra("musicName") + ".wav";
 
-        Log.e("AAA", getIntent.getStringExtra("musicName"));
+//        Log.e("AAA", getIntent.getStringExtra("musicName"));
 
         nameText = (TextView) findViewById(R.id.name_text);
         singerText = (TextView) findViewById(R.id.singer_text);
@@ -147,7 +147,14 @@ public class PlayingMusic extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mediaPlayer.isPlaying()){
+                if(mediaPlayer == null){
+                    try{
+                        Thread.sleep(500); // 1초마다 시크바 움직이게 함
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                else if(mediaPlayer.isPlaying()){
                     mediaPlayer.pause();
                     try{
                         Thread.sleep(500); // 1초마다 시크바 움직이게 함
