@@ -186,6 +186,7 @@ public class PlayingMusic extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
+                intent.putExtra("musicName", nameText.getText());
                 startActivity(intent);
             }
         });

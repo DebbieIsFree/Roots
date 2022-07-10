@@ -51,4 +51,9 @@ public interface RetrofitService {
 
     @GET("/view-likes")
     Call<List<String>> getLikeListData(@Query("kakao_id") String kakao_id);
+
+    @FormUrlEncoded
+    @PUT("/new-comment")
+    Call<String> postNewComment(@Field("music_name") String music_name,
+                                @Field("comment") String comment);
 }
