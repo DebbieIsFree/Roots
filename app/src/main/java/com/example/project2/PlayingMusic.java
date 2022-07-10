@@ -221,7 +221,6 @@ public class PlayingMusic extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 Gson gson = new GsonBuilder().setLenient().create();
-
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(getResources().getString(R.string.address))
                         .addConverterFactory(GsonConverterFactory.create(gson))
@@ -236,15 +235,12 @@ public class PlayingMusic extends AppCompatActivity {
                 }
 
                 RetrofitService service1 = retrofit.create(RetrofitService.class);
-
                 if(UserData.getInstance().getIdData() == null){
                     Toast.makeText(getApplicationContext(), "로그인을 먼저 해주세요", Toast.LENGTH_SHORT).show();
                     LikeSwitch.setChecked(false);
                     return;
                 }
-
                 Call<String> call = service1.putLike(UserData.getInstance().getIdData(), nameText.getText().toString() + ".wav", isLike);
-
                 call.enqueue(new Callback<String>(){
                     @Override
                     public void onResponse(Call<String> call, Response<String> response){

@@ -26,14 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/title"
-            android:textSize="20sp" />
+            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/singer_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/singer"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 </LinearLayout>

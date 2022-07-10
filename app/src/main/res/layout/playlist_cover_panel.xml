@@ -23,16 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="음악이름"
+            android:text="플레이리스트 이름"
             android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/singer_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="가수이름"
-            android:textSize="14sp" />
 
     </LinearLayout>
 
