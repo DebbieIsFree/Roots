@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
-import android.renderscript.Sampler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,14 +16,10 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.project2.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,6 +32,7 @@ public class PlayingMusic extends AppCompatActivity {
     private Button btn;
     private Button getMusicListButton;
     private Button backButton;
+    private Button viewCommentBtn;
     private boolean playPause;
     private MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
@@ -48,13 +44,15 @@ public class PlayingMusic extends AppCompatActivity {
 
     Switch LikeSwitch;
 
-    String baseurl = "http://192.249.18.200:80/musics/"; // 서버 음악파일 경로
+    String baseurl; // 서버 음악파일 경로
     String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
+
+        baseurl = "http://192.249.18.200:80/musics/";
 
         Intent getIntent = getIntent();
         url = baseurl + getIntent.getStringExtra("musicName") + ".wav";
@@ -195,6 +193,15 @@ public class PlayingMusic extends AppCompatActivity {
                         Log.d("MY TAG", "onFailure: "+t.getMessage());
                     }
                 });
+            }
+        });
+
+        viewCommentBtn = (Button) findViewById(R.id.comment);
+        viewCommentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
+                startActivity(intent);
             }
         });
     }
