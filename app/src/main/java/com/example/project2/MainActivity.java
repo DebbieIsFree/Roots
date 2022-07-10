@@ -103,8 +103,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void profileButtonPushed() {
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
+        if(UserData.getInstance().getIdData() == null){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(getApplicationContext(), MyprofileActivity.class);
+            startActivity(intent);
+        }
     }
 
 
