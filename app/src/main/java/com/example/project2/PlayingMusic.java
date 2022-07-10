@@ -39,6 +39,7 @@ public class PlayingMusic extends AppCompatActivity {
     private Button btn;
     private Button getMusicListButton;
     private Button backButton;
+    private Button commentBtn;
     private boolean playPause;
     private MediaPlayer mediaPlayer;
     private ProgressDialog progressDialog;
@@ -157,6 +158,15 @@ public class PlayingMusic extends AppCompatActivity {
                 playPause = false;
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        commentBtn = (Button) findViewById(R.id.comment);
+        commentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
                 startActivity(intent);
             }
         });
