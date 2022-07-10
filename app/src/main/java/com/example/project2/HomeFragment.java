@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(Call<String> call, Response<String> response){
                         if(response.isSuccessful()){
                             String result = response.body();
-
+                            Log.d("MY TAG", "onResponse: 성공 "+result);
                         }
                         else{
                             Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));

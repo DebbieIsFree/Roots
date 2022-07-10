@@ -21,14 +21,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".SelectMusicActivity"
+            android:exported="false" />
+        <activity
             android:name=".LikeListActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".MyprofileActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".CommentActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="false" />

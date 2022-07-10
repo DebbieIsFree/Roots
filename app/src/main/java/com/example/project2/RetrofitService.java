@@ -32,7 +32,6 @@ public interface RetrofitService {
     @GET("playlist")
     Call<PlaylistData> getPlaylistData(@Query("playlist_id") String playlist_id);
 
-
     @FormUrlEncoded
     @POST("register")
     Call<String> register(@Field("kakao_id") String kakao_id,
@@ -48,6 +47,11 @@ public interface RetrofitService {
     Call<String> putLike(@Field("kakao_id") String kakao_id,
                                 @Field("music_name") String music_name,
                                 @Field("islike") String islike);
+
+    @FormUrlEncoded
+    @PUT("music-to-playlist")
+    Call<String> putMusicToPlaylist(@Field("playlist_id") String playlist_id,
+                                    @Field("music_name") String music_name );
 
     @GET("/view-likes")
     Call<List<String>> getLikeListData(@Query("kakao_id") String kakao_id);

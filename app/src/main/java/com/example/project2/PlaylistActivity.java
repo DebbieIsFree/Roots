@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,16 +30,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PlaylistActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    TextView playlistNameText;
     RankingAdapter rankingAdapter;
     Button playlistStartButton;
+    Button playlistAddButton;
     JSONArray playlist;
+    String playlistId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
 
+        Intent getIntent = getIntent();
+        playlistId = getIntent.getStringExtra("playlist_id");
+
         playlist = new JSONArray();
+
+        playlistNameText = findViewById(R.id.playlist_name_text);
 
         recyclerView = findViewById(R.id.playlist_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -54,17 +63,19 @@ public class PlaylistActivity extends AppCompatActivity {
 
         RetrofitService service1 = retrofit.create(RetrofitService.class);
 
-        Call<List<String>> call = service1.getMusicListData();
+        Call<PlaylistData> call = service1.getPlaylistData(playlistId);
 
-        call.enqueue(new Callback<List<String>>(){
+        call.enqueue(new Callback<PlaylistData>(){
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response){
+            public void onResponse(Call<PlaylistData> call, Response<PlaylistData> response){
                 if(response.isSuccessful()){
-                    List<String> result = response.body();
+                    PlaylistData result = response.body();
                     Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
 
-                    for(int i = 0; i < result.size(); i++){
-                        rankingAdapter.setArrayData(result.get(i).replace(".wav", ""));
+                    playlistNameText.setText(result.getName());
+
+                    for(int i = 0; i < result.getPlaylist().size(); i++){
+                        rankingAdapter.setArrayData(result.getPlaylist().get(i));
                     }
                     recyclerView.setAdapter(rankingAdapter);
                 }
@@ -74,7 +85,7 @@ public class PlaylistActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t){
+            public void onFailure(Call<PlaylistData> call, Throwable t){
                 Log.d("MY TAG", "onFailure: "+t.getMessage());
             }
         });
@@ -84,9 +95,15 @@ public class PlaylistActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(), PlayingMusic.class);
-                intent.putExtra("mode", "playlist");
-                intent.putExtra("playlist", playlist.toString());
+            }
+        });
+
+        playlistAddButton = (Button) findViewById(R.id.playlist_add_button);
+        playlistAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SelectMusicActivity.class);
+                intent.putExtra("playlist_id", playlistId);
                 startActivity(intent);
             }
         });

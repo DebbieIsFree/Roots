@@ -90,7 +90,7 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
-                intent.putExtra("platlist_id", playlistId);
+                intent.putExtra("playlist_id", playlistId);
                 context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
             }
         });
@@ -98,7 +98,7 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
-                intent.putExtra("platlist_id", playlistId);
+                intent.putExtra("playlist_id", playlistId);
                 context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
             }
         });
