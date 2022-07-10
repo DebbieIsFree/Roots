@@ -94,40 +94,6 @@ public class RankingFragment extends Fragment {
             }
         });
 
-        Button connectButton = (Button)view.findViewById(R.id.connect_button);
-        connectButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-
-                RetrofitService service1 = retrofit.create(RetrofitService.class);
-
-                Call<MusicData> call = service1.getMusicData("1");
-
-                call.enqueue(new Callback<MusicData>(){
-                    @Override
-                    public void onResponse(Call<MusicData> call, Response<MusicData> response){
-                        if(response.isSuccessful()){
-                            MusicData result = response.body();
-                            Log.d("MY TAG", "onResponse: 성공, 결과\n"+result.getName()+result.getSinger()+Integer.toString(result.getYear()));
-                        }
-                        else{
-                            Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<MusicData> call, Throwable t){
-                        Log.d("MY TAG", "onFailure: "+t.getMessage());
-                    }
-                });
-            }
-        });
-
-        Button addButton = (Button)view.findViewById(R.id.add_button);
-        addButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-            }
-        });
-
         return view;
     }
 }

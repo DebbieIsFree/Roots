@@ -108,41 +108,6 @@ public class PlayingMusic extends AppCompatActivity {
             }
         });
 
-        getMusicListButton = (Button) findViewById(R.id.get_music_list_button);
-        getMusicListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Gson gson = new GsonBuilder().setLenient().create();
-
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(getResources().getString(R.string.address))
-                        .addConverterFactory(GsonConverterFactory.create(gson))
-                        .build();
-
-                RetrofitService service1 = retrofit.create(RetrofitService.class);
-
-                Call<List<String>> call = service1.getMusicListData();
-
-                call.enqueue(new Callback<List<String>>(){
-                    @Override
-                    public void onResponse(Call<List<String>> call, Response<List<String>> response){
-                        if(response.isSuccessful()){
-                            List<String> result = response.body();
-                            Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
-                        }
-                        else{
-                            Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<String>> call, Throwable t){
-                        Log.d("MY TAG", "onFailure: "+t.getMessage());
-                    }
-                });
-            }
-        });
-
         backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

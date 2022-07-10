@@ -48,15 +48,6 @@ public class HomeFragment extends Fragment {
         }
         recyclerView.setAdapter(playlistCoverAdapter);
 
-        Button button = (Button)view.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(getContext().getApplicationContext(), PlayingMusic.class);
-                startActivity(intent);
-            }
-        });
-
-
         return view;
     }
 }
