@@ -41,5 +41,6 @@ public interface RetrofitService {
                                 @Field("music_name") String music_name,
                                 @Field("islike") String islike);
 
-
+    @GET("/view-likes")
+    Call<List<String>> getLikeListData(@Query("kakao_id") String kakao_id);
 }
