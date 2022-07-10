@@ -46,7 +46,7 @@ public class RankingFragment extends Fragment {
         Gson gson = new GsonBuilder().setLenient().create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.249.18.200:80/")
+                .baseUrl(getResources().getString(R.string.address))
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

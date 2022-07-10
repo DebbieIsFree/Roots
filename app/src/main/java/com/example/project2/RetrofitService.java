@@ -11,6 +11,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -18,17 +19,24 @@ public interface RetrofitService {
     @GET("music")
     Call<MusicData> getMusicData(@Query("musidId") String musicId);
 
+    @GET("is-music-like")
+    Call<String> isMusicLike(@Query("kakao_id") String kakao_id,
+                             @Query("music_name") String music_name);
+
     @GET("music-list")
     Call<List<String>> getMusicListData();
 
     @FormUrlEncoded
     @POST("register")
-    Call<Integer> register(@Field("profile_nickname") String profile_nickname,
-                                @Field("profile_image") String profile_image);
+    Call<String> register(@Field("kakao_id") String kakao_id,
+                           @Field("profile_nickname") String profile_nickname,
+                           @Field("profile_image") String profile_image);
 
-    @POST("check-like")
-    Call<List<String>> postLike(@Query("name") String name,
-                                @Query("singer") String singer,
-                                @Query("year") String year);
+    @FormUrlEncoded
+    @PUT("like")
+    Call<String> putLike(@Field("kakao_id") String kakao_id,
+                                @Field("music_name") String music_name,
+                                @Field("islike") String islike);
+
 
 }

@@ -98,32 +98,29 @@ public class LoginActivity extends AppCompatActivity {
                             "\n회원번호: "+user.getId() +
                             "\n이메일: "+user.getKakaoAccount().getEmail());
                 }
-                Account user1 = user.getKakaoAccount();
-                System.out.println("사용자 계정" + user1);
-
             }
             Gson gson = new GsonBuilder().setLenient().create();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.249.18.200:80/")
+                    .baseUrl(getResources().getString(R.string.address))
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 
             RetrofitService service1 = retrofit.create(RetrofitService.class);
 
-//            Log.d("Properties", String.valueOf(user.getProperties()));
-
-//            Log.d("11111111111", String.valueOf(user.getProperties().get("nickname")));
-//            Log.d("11111111111", String.valueOf(user.getProperties().get("profile_image")));
-
-            Call<Integer> call = service1.register(String.valueOf(user.getProperties().get("nickname")),
+            Call<String> call = service1.register(Long.toString(user.getId()),
+                    String.valueOf(user.getProperties().get("nickname")),
                     String.valueOf(user.getProperties().get("profile_image")));
 
-            call.enqueue(new Callback<Integer>(){
+            UserData.getInstance().setIdData(Long.toString(user.getId()));
+            UserData.getInstance().setNicknameData(user.getProperties().get("nickname"));
+            UserData.getInstance().setProfileImageData(user.getProperties().get("profile_image"));
+
+            call.enqueue(new Callback<String>(){
                 @Override
-                public void onResponse(Call<Integer> call, Response<Integer> response){
+                public void onResponse(Call<String> call, Response<String> response){
                     if(response.isSuccessful()){
-                        Integer result = response.body();
+                        String result = response.body();
                         Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
                     }
                     else{
@@ -132,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Integer> call, Throwable t){
+                public void onFailure(Call<String> call, Throwable t){
                     Log.d("MY TAG", "onFailure: "+t.getMessage());
                 }
             });

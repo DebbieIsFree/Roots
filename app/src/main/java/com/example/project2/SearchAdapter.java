@@ -4,6 +4,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,15 +58,15 @@ public class SearchAdapter extends BaseAdapter {
 
         // 리스트에 있는 데이터를 리스트뷰 셀에 뿌린다.
         viewHolder.label.setText(list.get(position));
+        String text = list.get(position);
         viewHolder.label.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PlayingMusic.class);
-                intent.putExtra("musicName", viewHolder.label.getText());
+                intent.putExtra("musicName", text);
                 context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
             }
         });
-
         return convertView;
     }
 

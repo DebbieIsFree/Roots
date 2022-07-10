@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.project2.R;
 import com.google.gson.Gson;
@@ -48,7 +50,7 @@ public class PlayingMusic extends AppCompatActivity {
 
     Switch LikeSwitch;
 
-    String baseurl = "http://192.249.18.200:80/musics/"; // 서버 음악파일 경로
+    String baseurl;
     String url;
 
     @Override
@@ -56,11 +58,12 @@ public class PlayingMusic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
 
+        baseurl = getResources().getString(R.string.address) + "musics/";
+
         Intent getIntent = getIntent();
         url = baseurl + getIntent.getStringExtra("musicName") + ".wav";
 
-        System.out.println(url);
-
+        Log.e("AAA", getIntent.getStringExtra("musicName"));
 
         nameText = (TextView) findViewById(R.id.name_text);
         singerText = (TextView) findViewById(R.id.singer_text);
@@ -154,44 +157,89 @@ public class PlayingMusic extends AppCompatActivity {
                 playPause = false;
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("caller", getIntent.getStringExtra("caller"));
                 startActivity(intent);
             }
         });
 
         LikeSwitch = (Switch) findViewById(R.id.LikeSwitch);
-        LikeSwitch.setOnClickListener(new View.OnClickListener(){
+
+        Gson gson = new GsonBuilder().setLenient().create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.address))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        RetrofitService service1 = retrofit.create(RetrofitService.class);
+
+        System.out.println(UserData.getInstance().getIdData());
+        Call<String> call = service1.isMusicLike(UserData.getInstance().getIdData(), nameText.getText().toString()+".wav");
+
+        call.enqueue(new Callback<String>(){
             @Override
-            public void onClick(View v) {
+            public void onResponse(Call<String> call, Response<String> response){
+                if(response.isSuccessful()){
+                    String result = response.body();
+                    if(result.equals("true")){
+                        LikeSwitch.setChecked(true);
+                    }
+                    else{
+                        LikeSwitch.setChecked(false);
+                    }
+                }
+                else{
+                    Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t){
+                Log.d("MY TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
+        LikeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 Gson gson = new GsonBuilder().setLenient().create();
 
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://192.249.18.200:80/")
+                        .baseUrl(getResources().getString(R.string.address))
                         .addConverterFactory(GsonConverterFactory.create(gson))
                         .build();
 
+                String isLike;
+                if (isChecked) {
+                    isLike = "true";
+                }
+                else {
+                    isLike = "false";
+                }
+
                 RetrofitService service1 = retrofit.create(RetrofitService.class);
 
-                TextView name = (TextView) findViewById(R.id.name_text);
-                TextView singer = (TextView) findViewById(R.id.singer_text);
+                if(UserData.getInstance().getIdData() == null){
+                    Toast.makeText(getApplicationContext(), "로그인을 먼저 해주세요", Toast.LENGTH_SHORT).show();
+                    LikeSwitch.setChecked(false);
+                    return;
+                }
 
+                Call<String> call = service1.putLike(UserData.getInstance().getIdData(), nameText.getText().toString() + ".wav", isLike);
 
-                Call<List<String>> call = service1.postLike(name.getText().toString(), singer.getText().toString(), "");
-
-                call.enqueue(new Callback<List<String>>(){
+                call.enqueue(new Callback<String>(){
                     @Override
-                    public void onResponse(Call<List<String>> call, Response<List<String>> response){
+                    public void onResponse(Call<String> call, Response<String> response){
                         if(response.isSuccessful()){
-                            List<String> result = response.body();
-                            Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
+                            String result = response.body();
+                            Log.d("MY TAG", "onResponse: 성공, 결과\n" + result);
                         }
                         else{
-                            Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
+                            Log.d("MY TAG", "onResponse: 실패 " + String.valueOf(response.code()));
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<String>> call, Throwable t){
+                    public void onFailure(Call<String> call, Throwable t){
                         Log.d("MY TAG", "onFailure: "+t.getMessage());
                     }
                 });

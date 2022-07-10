@@ -133,7 +133,7 @@ public class SearchActivity extends AppCompatActivity {
             for(int i = 0; i < arraylist.size(); i++)
             {
                 // arraylist의 모든 데이터에 입력받은 단어(charText)가 포함되어 있으면 true를 반환한다.
-                if (arraylist.get(i).toLowerCase().contains(charText))
+                if (arraylist.get(i).toLowerCase().contains(charText.toLowerCase()))
                 {
                     // 검색된 데이터를 리스트에 추가한다.
                     list.add(arraylist.get(i));
