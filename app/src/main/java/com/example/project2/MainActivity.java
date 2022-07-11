@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -100,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.profile_button:
                 profileButtonPushed();
                 return true;
+            case R.id.logout_button:
+                logoutButtonPushed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -117,6 +121,21 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Intent intent = new Intent(getApplicationContext(), MyprofileActivity.class);
             startActivity(intent);
+        }
+    }
+
+    public void logoutButtonPushed(){
+        if(UserData.getInstance().getIdData() != null) {
+            SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+            editor.clear();
+            editor.commit();
+
+            UserData.getInstance().setIdData(null);
+            UserData.getInstance().setNicknameData(null);
+            UserData.getInstance().setProfileImageData(null);
+
+//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(intent);
         }
     }
 

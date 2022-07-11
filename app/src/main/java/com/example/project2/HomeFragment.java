@@ -1,5 +1,6 @@
 package com.example.project2;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -64,6 +65,10 @@ public class HomeFragment extends Fragment {
                         if(response.isSuccessful()){
                             String result = response.body();
                             Log.d("MY TAG", "onResponse: 성공 "+result);
+
+                            Intent intent = new Intent(getActivity().getApplicationContext(), PlaylistActivity.class);
+                            intent.putExtra("playlist_id", result);
+                            startActivity(intent);
                         }
                         else{
                             Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
@@ -74,6 +79,7 @@ public class HomeFragment extends Fragment {
                         Log.d("MY TAG", "onFailure: "+t.getMessage());
                     }
                 });
+
             }
         });
 
