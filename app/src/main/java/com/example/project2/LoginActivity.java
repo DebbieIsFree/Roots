@@ -2,7 +2,6 @@ package com.example.project2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -102,15 +101,6 @@ public class LoginActivity extends AppCompatActivity {
             UserData.getInstance().setIdData(Long.toString(user.getId()));
             UserData.getInstance().setNicknameData(user.getProperties().get("nickname"));
             UserData.getInstance().setProfileImageData(user.getProperties().get("profile_image"));
-
-            SharedPreferences preferences = getSharedPreferences("UserData", MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("id", Long.toString(user.getId()));
-            editor.putString("nickname", user.getProperties().get("nickname"));
-            editor.putString("profileImage", user.getProperties().get("profile_image"));
-            editor.commit();
-            getPreferences(MODE_PRIVATE);
-
 
             call.enqueue(new Callback<String>(){
                 @Override

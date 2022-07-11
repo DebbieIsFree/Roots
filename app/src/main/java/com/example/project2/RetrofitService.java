@@ -53,11 +53,14 @@ public interface RetrofitService {
     Call<String> putMusicToPlaylist(@Field("playlist_id") String playlist_id,
                                     @Field("music_name") String music_name );
 
-    @GET("/view-likes")
+    @GET("view-likes")
     Call<List<String>> getLikeListData(@Query("kakao_id") String kakao_id);
 
     @FormUrlEncoded
-    @PUT("/new-comment")
+    @PUT("new-comment")
     Call<String> postNewComment(@Field("music_name") String music_name,
                                 @Field("comment") String comment);
+
+    @GET("comment-data")
+    Call<List<String>> getCommentData(@Query("music_name") String music_name);
 }
