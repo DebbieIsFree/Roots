@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +29,8 @@ public class CommentActivity extends AppCompatActivity {
     Button makeCommentBtn;
     EditText editText;
 
+    List<String> comment;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
@@ -37,9 +40,9 @@ public class CommentActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.editText);
         makeCommentBtn = findViewById(R.id.makeCommentBtn);
+
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
         commentAdapter = new CommentAdapter(getApplicationContext());
 
         makeCommentBtn.setOnClickListener(new View.OnClickListener() {
@@ -49,16 +52,13 @@ public class CommentActivity extends AppCompatActivity {
                 recyclerView.setAdapter(commentAdapter);
 
                 Gson gson = new GsonBuilder().setLenient().create();
-
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(getResources().getString(R.string.address))
                         .addConverterFactory(GsonConverterFactory.create(gson))
                         .build();
 
                 RetrofitService service1 = retrofit.create(RetrofitService.class);
-
                 Call<String> call = service1.postNewComment(music, editText.getText().toString());
-
                 call.enqueue(new Callback<String>(){
                     @Override
                     public void onResponse(Call<String> call, Response<String> response){
@@ -79,11 +79,47 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
 
-        commentAdapter.setArrayData("댓글1");
-        commentAdapter.setArrayData("댓글2");
+        ///
+
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.address))
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        RetrofitService service1 = retrofit.create(RetrofitService.class);
+        Call<List<String>> getCommentDataCall = service1.getCommentData(music);
+        getCommentDataCall.enqueue(new Callback<List<String>>(){
+            @Override
+            public void onResponse(Call<List<String>> getCommentDataCall, Response<List<String>> response){
+                if(response.isSuccessful()){
+                    List<String> result = response.body();
+
+                    int size = result.size();
+
+                    for(int i = 0; i < size; i++){
+                        commentAdapter.setArrayData(result.get(i));
+                        Log.d("Comment list : ", result.get(i));
+                    }
+                    recyclerView.setAdapter(commentAdapter);
+                }
+                else{
+                    Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
+                }
+            }
+            @Override
+            public void onFailure(Call<List<String>> getMusicDataCall, Throwable t){
+                Log.d("MY TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
+
+
+//        commentAdapter.setArrayData("댓글1");
+//        commentAdapter.setArrayData("댓글2");
 //        commentAdapter.setArrayData("댓글3");
 //        commentAdapter.setArrayData("댓글4");
 
-        recyclerView.setAdapter(commentAdapter);
+//        recyclerView.setAdapter(commentAdapter);
     }
 }
