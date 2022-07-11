@@ -339,7 +339,7 @@ public class PlayingMusic extends AppCompatActivity {
             public void run() {
                 while(mp.isPlaying()){  // 음악이 실행중일때 계속 돌아가게 함
                     try{
-                        Thread.sleep(500); // 1초마다 시크바 움직이게 함
+                        Thread.sleep(1000); // 1초마다 시크바 움직이게 함
                     } catch(Exception e){
                         e.printStackTrace();
                     }

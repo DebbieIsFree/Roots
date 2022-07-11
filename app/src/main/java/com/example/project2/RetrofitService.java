@@ -63,4 +63,7 @@ public interface RetrofitService {
 
     @GET("comment-data")
     Call<List<String>> getCommentData(@Query("music_name") String music_name);
+
+    @GET("random-music")
+    Call<List<MusicData>> randomdMusic(@Query("random_index") int[] random_index);
 }
