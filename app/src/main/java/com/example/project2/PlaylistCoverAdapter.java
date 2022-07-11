@@ -59,7 +59,7 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
                 .build();
 
         RetrofitService service1 = retrofit.create(RetrofitService.class);
-        Call<PlaylistData> call = service1.getPlaylistData(UserData.getInstance().getIdData());
+        Call<PlaylistData> call = service1.getPlaylistData(playlistId);
         call.enqueue(new Callback<PlaylistData>(){
             @Override
             public void onResponse(Call<PlaylistData> call, Response<PlaylistData> response){
@@ -67,14 +67,39 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
                     PlaylistData result = response.body();
                     holder.text_music.setText(result.getName());
 
-                    String imageUrl = "";
-                    if(result.getPlaylist().size() == 0){
+                    String imageUrl;
+                    if(result.getPlaylist().size() <= 0){
                         imageUrl = context.getResources().getString(R.string.address) + "image/Blank.jpg";
                     }
                     else {
                         imageUrl = context.getResources().getString(R.string.address) + "image/" + result.getPlaylist().get(0) + ".jpg";
                     }
-                    new ImageLoadTask(imageUrl, holder.album_image).execute();
+                    new ImageLoadTask(imageUrl, holder.album_image_1).execute();
+
+                    if(result.getPlaylist().size() <= 1){
+                        imageUrl = context.getResources().getString(R.string.address) + "image/Blank.jpg";
+                    }
+                    else {
+                        imageUrl = context.getResources().getString(R.string.address) + "image/" + result.getPlaylist().get(1) + ".jpg";
+                    }
+                    new ImageLoadTask(imageUrl, holder.album_image_2).execute();
+
+                    if(result.getPlaylist().size() <= 2){
+                        imageUrl = context.getResources().getString(R.string.address) + "image/Blank.jpg";
+                    }
+                    else {
+                        imageUrl = context.getResources().getString(R.string.address) + "image/" + result.getPlaylist().get(2) + ".jpg";
+                    }
+                    new ImageLoadTask(imageUrl, holder.album_image_3).execute();
+
+                    if(result.getPlaylist().size() <= 3){
+                        imageUrl = context.getResources().getString(R.string.address) + "image/Blank.jpg";
+                    }
+                    else {
+                        imageUrl = context.getResources().getString(R.string.address) + "image/" + result.getPlaylist().get(3) + ".jpg";
+                    }
+                    new ImageLoadTask(imageUrl, holder.album_image_4).execute();
+
                 }
                 else{
                     Log.d("MY TAG", "onResponse: 실패 " + String.valueOf(response.code()));
@@ -86,7 +111,39 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
             }
         });
 
-        holder.album_image.setOnClickListener(new View.OnClickListener() {
+        holder.album_image_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
+                intent.putExtra("playlist_id", playlistId);
+                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
+        holder.album_image_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
+                intent.putExtra("playlist_id", playlistId);
+                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
+        holder.album_image_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
+                intent.putExtra("playlist_id", playlistId);
+                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
+        holder.album_image_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
+                intent.putExtra("playlist_id", playlistId);
+                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
+        holder.album_image_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
@@ -98,6 +155,7 @@ public class PlaylistCoverAdapter extends RecyclerView.Adapter<PlaylistCoverView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PlaylistActivity.class);
+                intent.putExtra("playlist_id", playlistId);
                 intent.putExtra("playlist_id", playlistId);
                 context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
             }

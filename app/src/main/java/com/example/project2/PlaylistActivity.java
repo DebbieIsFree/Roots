@@ -34,7 +34,6 @@ public class PlaylistActivity extends AppCompatActivity {
     RankingAdapter rankingAdapter;
     Button playlistStartButton;
     Button playlistAddButton;
-    JSONArray playlist;
     String playlistId;
 
     @Override
@@ -44,8 +43,6 @@ public class PlaylistActivity extends AppCompatActivity {
 
         Intent getIntent = getIntent();
         playlistId = getIntent.getStringExtra("playlist_id");
-
-        playlist = new JSONArray();
 
         playlistNameText = findViewById(R.id.playlist_name_text);
 
@@ -94,6 +91,36 @@ public class PlaylistActivity extends AppCompatActivity {
         playlistStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Gson gson = new GsonBuilder().setLenient().create();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(getResources().getString(R.string.address))
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+
+                RetrofitService service1 = retrofit.create(RetrofitService.class);
+                Call<PlaylistData> call = service1.getPlaylistData(playlistId);
+                call.enqueue(new Callback<PlaylistData>(){
+                    @Override
+                    public void onResponse(Call<PlaylistData> call, Response<PlaylistData> response){
+                        if(response.isSuccessful()){
+                            PlaylistData result = response.body();
+
+                            Intent intent = new Intent(getApplicationContext(), PlayingMusic.class);
+                            intent.putExtra("playlist_id", playlistId);
+                            intent.putExtra("index", "0");
+                            intent.putExtra("repeatMode", "repeat_all");
+                            intent.putExtra("musicName", result.getPlaylist().get(0));
+                            startActivity(intent);
+                        }
+                        else{
+                            Log.d("MY TAG", "onResponse: 실패 " + String.valueOf(response.code()));
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<PlaylistData> call, Throwable t){
+                        Log.d("MY TAG", "onFailure: "+t.getMessage());
+                    }
+                });
 
             }
         });

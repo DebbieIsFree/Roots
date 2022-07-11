@@ -36,7 +36,7 @@ public class SelectMusicActivity extends AppCompatActivity {
 
         // Add the following lines to create RecyclerView
         Intent getIntent = getIntent();
-        playlistId = getIntent.getStringExtra("Playlist_id");
+        playlistId = getIntent.getStringExtra("playlist_id");
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

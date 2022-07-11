@@ -56,10 +56,14 @@ public class PlayingMusic extends AppCompatActivity {
     String singer;
     List<String> comment;
 
+    ImageView repeatImage;
+
     Switch LikeSwitch;
 
     String baseurl;
     String url;
+
+    String repeatMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,7 @@ public class PlayingMusic extends AppCompatActivity {
         Intent getIntent = getIntent();
         url = baseurl + getIntent.getStringExtra("musicName") + ".wav";
 
-//        Log.e("AAA", getIntent.getStringExtra("musicName"));
+        repeatMode = getIntent.getStringExtra("repeatMode");
 
         nameText = (TextView) findViewById(R.id.name_text);
         singerText = (TextView) findViewById(R.id.singer_text);
@@ -114,9 +118,6 @@ public class PlayingMusic extends AppCompatActivity {
                 Log.d("MY TAG", "onFailure: "+t.getMessage());
             }
         });
-
-        nameText.setText(getIntent.getStringExtra("musicName"));
-        singerText.setText(getIntent.getStringExtra("singerName"));
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
@@ -190,6 +191,26 @@ public class PlayingMusic extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        repeatImage = (ImageView) findViewById(R.id.repeat_image);
+        repeatImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(repeatMode.equals("repeatNo")){
+                    repeatImage.setImageDrawable(getResources().getDrawable(R.drawable.repeat_all));
+                    repeatMode = "repeatAll";
+                }
+                else if(repeatMode.equals("repeatAll")){
+                    repeatImage.setImageDrawable(getResources().getDrawable(R.drawable.repeat_one));
+                    repeatMode = "repeatOne";
+                }
+                else{
+                    repeatImage.setImageDrawable(getResources().getDrawable(R.drawable.repeat_no));
+                    repeatMode = "repeatNo";
+                }
+            }
+        });
+
 
         LikeSwitch = (Switch) findViewById(R.id.LikeSwitch);
 
@@ -324,6 +345,16 @@ public class PlayingMusic extends AppCompatActivity {
                         btn.setText("Launch Streaming");
                         mediaPlayer.stop();
                         mediaPlayer.reset();
+
+                        if(repeatMode.equals("repeatNo")) {
+                            Log.e("","");
+                        }
+                        else if(repeatMode.equals("repeatNo")) {
+                            Log.e("","");
+                        }
+                        else {
+                            Log.e("","");
+                        }
                     }
                 });
                 mediaPlayer.prepare();

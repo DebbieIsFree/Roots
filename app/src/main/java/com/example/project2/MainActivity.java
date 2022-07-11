@@ -1,6 +1,7 @@
 package com.example.project2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 
@@ -30,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(UserData.getInstance().getIdData() == null) {
+            SharedPreferences preferences = getSharedPreferences("UserData", MODE_PRIVATE);
+            UserData.getInstance().setIdData(preferences.getString("id",null));
+            UserData.getInstance().setNicknameData(preferences.getString("nickname",null));
+            UserData.getInstance().setProfileImageData(preferences.getString("profileImage",null));
+        }
 
         Log.d("hash", Utility.getKeyHash(this));
 
