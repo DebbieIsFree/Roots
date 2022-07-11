@@ -4,6 +4,7 @@ public class UserData {
     private String id;
     private String nickname;
     private String profileImage;
+    private String record;
 
     public String getIdData() {
         return id;
@@ -24,6 +25,13 @@ public class UserData {
     }
     public void setProfileImageData(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public String getRecordData() {
+        return record;
+    }
+    public void setRecordData(String record) {
+        this.record = record;
     }
 
     private static UserData instance = null;

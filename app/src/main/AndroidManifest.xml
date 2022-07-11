@@ -21,6 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".EditPlaylistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".YouNeedLoginActivity"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" />
+        <activity
             android:name=".SelectMusicActivity"
             android:exported="false" />
         <activity

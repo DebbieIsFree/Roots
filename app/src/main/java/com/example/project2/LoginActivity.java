@@ -103,12 +103,14 @@ public class LoginActivity extends AppCompatActivity {
             UserData.getInstance().setIdData(Long.toString(user.getId()));
             UserData.getInstance().setNicknameData(user.getProperties().get("nickname"));
             UserData.getInstance().setProfileImageData(user.getProperties().get("profile_image"));
+            UserData.getInstance().setRecordData("0");
 
             SharedPreferences preferences = getSharedPreferences("UserData", MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("id", Long.toString(user.getId()));
             editor.putString("nickname", user.getProperties().get("nickname"));
             editor.putString("profileImage", user.getProperties().get("profile_image"));
+            editor.putString("record", "0");
             editor.commit();
             getPreferences(MODE_PRIVATE);
 

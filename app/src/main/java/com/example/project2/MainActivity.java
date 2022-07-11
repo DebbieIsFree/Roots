@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             UserData.getInstance().setIdData(preferences.getString("id",null));
             UserData.getInstance().setNicknameData(preferences.getString("nickname",null));
             UserData.getInstance().setProfileImageData(preferences.getString("profileImage",null));
+            UserData.getInstance().setRecordData(preferences.getString("record",null));
         }
 
         Log.d("hash", Utility.getKeyHash(this));

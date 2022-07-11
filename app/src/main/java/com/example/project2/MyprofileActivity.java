@@ -32,7 +32,7 @@ public class MyprofileActivity extends AppCompatActivity {
     Button backBtn;
     Button viewLikesBtn;
     TextView name;
-    TextView id;
+    TextView recordText;
     ImageView profile;
     JSONArray likelist;
 
@@ -46,6 +46,11 @@ public class MyprofileActivity extends AppCompatActivity {
 
         String nicknameValue = UserData.getInstance().getNicknameData();
         String profileImageURL = UserData.getInstance().getProfileImageData();
+
+        String record = UserData.getInstance().getRecordData();
+
+        recordText = findViewById(R.id.recordText);
+        recordText.setText(record + " 초");
 
         Intent getIntent = getIntent();
         baseurl = getResources().getString(R.string.address) + "musics/";

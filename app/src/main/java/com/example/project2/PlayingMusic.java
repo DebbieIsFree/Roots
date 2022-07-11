@@ -2,6 +2,7 @@ package com.example.project2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -11,6 +12,8 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kakao.sdk.user.model.User;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +43,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PlayingMusic extends AppCompatActivity {
     private Button btn;
-    private Button getMusicListButton;
     private Button backButton;
     private Button commentBtn;
     private boolean playPause;
@@ -66,19 +69,22 @@ public class PlayingMusic extends AppCompatActivity {
     String baseurl;
     String url;
 
+    Thread movingSeekbarThread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
 
+
+
         baseurl = getResources().getString(R.string.address) + "musics/";
 
         Intent getIntent = getIntent();
-
         url = baseurl + getIntent.getStringExtra("musicName") + ".wav";
 
         index = getIntent.getStringExtra("index");
-        playlistId = getIntent.getStringExtra("playlistId");
+        playlistId = getIntent.getStringExtra("playlist_id");
 
         repeatImage = (ImageView) findViewById(R.id.repeat_image);
         repeatMode = getIntent.getStringExtra("repeatMode");
@@ -177,21 +183,14 @@ public class PlayingMusic extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mediaPlayer == null){
-                    try{
-                        Thread.sleep(500);
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-                else if(mediaPlayer.isPlaying()){
-                    mediaPlayer.pause();
-                    try{
-                        Thread.sleep(500);
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
+                initalStage = true;
+                playPause = false;
+                btn.setText("Launch Streaming");
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+
+                movingSeekbarThread.interrupt();
+
                 playPause = false;
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -203,6 +202,14 @@ public class PlayingMusic extends AppCompatActivity {
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                initalStage = true;
+                playPause = false;
+                btn.setText("Launch Streaming");
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+
+                movingSeekbarThread.interrupt();
+
                 Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
                 intent.putExtra("musicName", nameText.getText());
                 startActivity(intent);
@@ -334,20 +341,40 @@ public class PlayingMusic extends AppCompatActivity {
         });
 
         mp.start();
-        new Thread(new Runnable(){  // 쓰레드 생성
+        movingSeekbarThread = new Thread(new Runnable(){  // 쓰레드 생성
             @Override
             public void run() {
                 while(mp.isPlaying()){  // 음악이 실행중일때 계속 돌아가게 함
                     try{
-                        Thread.sleep(500); // 1초마다 시크바 움직이게 함
+                        Thread.sleep(1000);
                     } catch(Exception e){
                         e.printStackTrace();
                     }
-                    // 현재 재생중인 위치를 가져와 시크바에 적용
-                    seekBar1.setProgress(mp.getCurrentPosition());
+
+                    if(mp.isPlaying()) {
+                        seekBar1.setProgress(mp.getCurrentPosition());
+                        if(mp.getCurrentPosition() > 10000 && UserData.getInstance().getIdData() == null){
+                            Message msg = handler.obtainMessage();
+                            handler.sendMessage(msg);
+                        }
+                    }
+
+                    if(UserData.getInstance().getIdData() != null){
+                        SharedPreferences preferences = getSharedPreferences("UserData", MODE_PRIVATE);
+                        String record = preferences.getString("record",null);
+                        String newRecord = Integer.toString(Integer.parseInt(record)+1);
+
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("record", newRecord);
+                        editor.commit();
+                        getPreferences(MODE_PRIVATE);
+
+                        UserData.getInstance().setRecordData(newRecord);
+                    }
                 }
             }
-        }).start();
+        });
+        movingSeekbarThread.start();
     }
 
     @Override
@@ -385,19 +412,22 @@ public class PlayingMusic extends AppCompatActivity {
                             return;
                         }
                         else if(repeatMode.equals("repeatAll")) {
-//                            if(index == null){
-//                                btn.setText("Pause Streaming");
-//                                new Player().execute(url);
-//                                playPause = true;
-//                                try {
-//                                    Thread.sleep(500);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                playClicked(seekBar, mediaPlayer);
-//
-//                                return;
-//                            }
+                            if(index == null){
+                                btn.setText("Pause Streaming");
+                                new Player().execute(url);
+                                playPause = true;
+                                try {
+                                    Thread.sleep(500);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                playClicked(seekBar, mediaPlayer);
+
+                                return;
+                            }
+
+                            System.out.println("playlist id : "+playlistId);
+                            System.out.println("index : "+index);
 
                             Gson gson = new GsonBuilder().setLenient().create();
                             Retrofit retrofit = new Retrofit.Builder()
@@ -407,6 +437,7 @@ public class PlayingMusic extends AppCompatActivity {
 
                             RetrofitService service1 = retrofit.create(RetrofitService.class);
                             Call<PlaylistData> call = service1.getPlaylistData(playlistId);
+
                             call.enqueue(new Callback<PlaylistData>(){
                                 @Override
                                 public void onResponse(Call<PlaylistData> call, Response<PlaylistData> response){
@@ -419,20 +450,18 @@ public class PlayingMusic extends AppCompatActivity {
                                             nextIndex = 0;
                                         }
                                         String nextMusicName = result.getPlaylist().get(nextIndex);
-                                        index = Integer.toString(nextIndex);
 
-                                        Log.e("nextname", nextMusicName);
+                                        movingSeekbarThread.interrupt();
 
-                                        url = baseurl + nextMusicName + ".wav";
-                                        btn.setText("Pause Streaming");
-                                        new Player().execute(url);
-                                        playPause = true;
-                                        try {
-                                            Thread.sleep(500);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                        playClicked(seekBar, mediaPlayer);
+                                        finish();//인텐트 종료
+                                        overridePendingTransition(0, 0);//인텐트 효과 없애기
+                                        Intent intent = getIntent(); //인텐트
+                                        intent.putExtra("repeatMode", repeatMode);
+                                        intent.putExtra("index", Integer.toString(nextIndex));
+                                        intent.putExtra("musicName", nextMusicName);
+                                        intent.putExtra("playlist_id", playlistId);
+                                        startActivity(intent); //액티비티 열기
+                                        overridePendingTransition(0, 0);
                                     }
                                     else{
                                         Log.d("MY TAG", "onResponse: 실패 " + String.valueOf(response.code()));
@@ -476,4 +505,18 @@ public class PlayingMusic extends AppCompatActivity {
             initalStage = false;
         }
     }
+    final Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            initalStage = true;
+            playPause = false;
+            btn.setText("Launch Streaming");
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+
+            movingSeekbarThread.interrupt();
+
+            Intent intent = new Intent(getApplicationContext(), YouNeedLoginActivity.class);
+            startActivity(intent);
+        }
+    };
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -60,6 +61,16 @@ public interface RetrofitService {
     @PUT("new-comment")
     Call<String> postNewComment(@Field("music_name") String music_name,
                                 @Field("comment") String comment);
+
+    @FormUrlEncoded
+    @PUT("playlist-name")
+    Call<String> putPlaylistName(@Field("playlist_id") String playlist_id,
+                                @Field("playlist_name") String playlist_name);
+
+    @FormUrlEncoded
+    @PUT("music-from-playlist")
+    Call<String> deleteMusicFromPlaylist(@Field("playlist_id") String playlist_id,
+                                         @Field("music_name") String music_name );
 
     @GET("comment-data")
     Call<List<String>> getCommentData(@Query("music_name") String music_name);
