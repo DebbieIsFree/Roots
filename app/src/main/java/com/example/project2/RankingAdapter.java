@@ -72,8 +72,8 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder> {
 
                     String name = result.getName();
                     String singer = result.getSinger();
-
                     String imageUrl = context.getResources().getString(R.string.address) + "image/" + name + ".jpg";
+
                     new ImageLoadTask(imageUrl, holder.album_image).execute();
                     holder.text_music.setText(name);
                     holder.text_singer.setText(singer);

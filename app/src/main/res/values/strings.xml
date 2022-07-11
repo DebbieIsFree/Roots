@@ -18,5 +18,7 @@
     <string name="recommendation">recommendation</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="address">http://192.249.18.200:443/</string>
+    <string name="number_of_music">18</string>
     <string name="address">http://192.249.18.200:80/</string>
 </resources>
