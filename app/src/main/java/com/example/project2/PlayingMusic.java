@@ -57,13 +57,14 @@ public class PlayingMusic extends AppCompatActivity {
     List<String> comment;
 
     ImageView repeatImage;
+    String repeatMode;
+    String index;
+    String playlistId;
 
     Switch LikeSwitch;
 
     String baseurl;
     String url;
-
-    String repeatMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +74,25 @@ public class PlayingMusic extends AppCompatActivity {
         baseurl = getResources().getString(R.string.address) + "musics/";
 
         Intent getIntent = getIntent();
+
         url = baseurl + getIntent.getStringExtra("musicName") + ".wav";
 
+        index = getIntent.getStringExtra("index");
+        playlistId = getIntent.getStringExtra("playlistId");
+
+        repeatImage = (ImageView) findViewById(R.id.repeat_image);
         repeatMode = getIntent.getStringExtra("repeatMode");
+
+        if(repeatMode == null) repeatMode = "repeatNo";
+        if(repeatMode.equals("repeatNo")){
+            repeatImage.setImageDrawable(getResources().getDrawable(R.drawable.repeat_no));
+        }
+        else if(repeatMode.equals("repeatAll")){
+            repeatImage.setImageDrawable(getResources().getDrawable(R.drawable.repeat_all));
+        }
+        else{
+            repeatImage.setImageDrawable(getResources().getDrawable(R.drawable.repeat_one));
+        }
 
         nameText = (TextView) findViewById(R.id.name_text);
         singerText = (TextView) findViewById(R.id.singer_text);
@@ -192,7 +209,6 @@ public class PlayingMusic extends AppCompatActivity {
             }
         });
 
-        repeatImage = (ImageView) findViewById(R.id.repeat_image);
         repeatImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -282,6 +298,25 @@ public class PlayingMusic extends AppCompatActivity {
                 });
             }
         });
+
+        //들어오면 바로 음악 재생
+        btn.setText("Pause Streaming");
+        if(initalStage){
+            new Player().execute(url);
+        } else {
+            if(!mediaPlayer.isPlaying()){
+                mediaPlayer.start();
+            }
+        }
+        playPause = true;
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        playClicked(seekBar, mediaPlayer);
+
+
     }
 
     public void playClicked(@NonNull SeekBar seekBar1, @NonNull MediaPlayer mp) {
@@ -347,13 +382,78 @@ public class PlayingMusic extends AppCompatActivity {
                         mediaPlayer.reset();
 
                         if(repeatMode.equals("repeatNo")) {
-                            Log.e("","");
+                            return;
                         }
-                        else if(repeatMode.equals("repeatNo")) {
-                            Log.e("","");
+                        else if(repeatMode.equals("repeatAll")) {
+//                            if(index == null){
+//                                btn.setText("Pause Streaming");
+//                                new Player().execute(url);
+//                                playPause = true;
+//                                try {
+//                                    Thread.sleep(500);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                playClicked(seekBar, mediaPlayer);
+//
+//                                return;
+//                            }
+
+                            Gson gson = new GsonBuilder().setLenient().create();
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(getResources().getString(R.string.address))
+                                    .addConverterFactory(GsonConverterFactory.create(gson))
+                                    .build();
+
+                            RetrofitService service1 = retrofit.create(RetrofitService.class);
+                            Call<PlaylistData> call = service1.getPlaylistData(playlistId);
+                            call.enqueue(new Callback<PlaylistData>(){
+                                @Override
+                                public void onResponse(Call<PlaylistData> call, Response<PlaylistData> response){
+                                    if(response.isSuccessful()){
+                                        PlaylistData result = response.body();
+
+                                        int nextIndex = Integer.parseInt(index) + 1;
+
+                                        if(result.getPlaylist().size() <= nextIndex){
+                                            nextIndex = 0;
+                                        }
+                                        String nextMusicName = result.getPlaylist().get(nextIndex);
+                                        index = Integer.toString(nextIndex);
+
+                                        Log.e("nextname", nextMusicName);
+
+                                        url = baseurl + nextMusicName + ".wav";
+                                        btn.setText("Pause Streaming");
+                                        new Player().execute(url);
+                                        playPause = true;
+                                        try {
+                                            Thread.sleep(500);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        playClicked(seekBar, mediaPlayer);
+                                    }
+                                    else{
+                                        Log.d("MY TAG", "onResponse: 실패 " + String.valueOf(response.code()));
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call<PlaylistData> call, Throwable t){
+                                    Log.d("MY TAG", "onFailure: "+t.getMessage());
+                                }
+                            });
                         }
                         else {
-                            Log.e("","");
+                            btn.setText("Pause Streaming");
+                            new Player().execute(url);
+                            playPause = true;
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            playClicked(seekBar, mediaPlayer);
                         }
                     }
                 });

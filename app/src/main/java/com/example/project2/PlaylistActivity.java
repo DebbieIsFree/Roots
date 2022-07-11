@@ -108,7 +108,7 @@ public class PlaylistActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), PlayingMusic.class);
                             intent.putExtra("playlist_id", playlistId);
                             intent.putExtra("index", "0");
-                            intent.putExtra("repeatMode", "repeat_all");
+                            intent.putExtra("repeatMode", "repeatAll");
                             intent.putExtra("musicName", result.getPlaylist().get(0));
                             startActivity(intent);
                         }
