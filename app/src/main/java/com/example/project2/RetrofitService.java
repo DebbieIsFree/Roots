@@ -70,7 +70,7 @@ public interface RetrofitService {
     @FormUrlEncoded
     @PUT("music-from-playlist")
     Call<String> deleteMusicFromPlaylist(@Field("playlist_id") String playlist_id,
-                                         @Field("music_name") String music_name );
+                                         @Field("index") String index );
 
     @GET("comment-data")
     Call<List<String>> getCommentData(@Query("music_name") String music_name);

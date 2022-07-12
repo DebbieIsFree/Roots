@@ -48,7 +48,9 @@ public class EditPlaylistAdapter extends RecyclerView.Adapter<EditPlaylistViewHo
 
     @Override
     public void onBindViewHolder(@NonNull EditPlaylistViewHolder holder, int position) {
-        String musicName = arrayList.get(position);
+        int index = position;
+
+        String musicName = arrayList.get(index);
 
         Gson gson = new GsonBuilder().setLenient().create();
 
@@ -90,6 +92,9 @@ public class EditPlaylistAdapter extends RecyclerView.Adapter<EditPlaylistViewHo
         holder.album_image.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                arrayList.remove(index);
+                notifyItemRemoved(index);
+
                 Gson gson = new GsonBuilder().setLenient().create();
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(context.getResources().getString(R.string.address))
@@ -97,7 +102,7 @@ public class EditPlaylistAdapter extends RecyclerView.Adapter<EditPlaylistViewHo
                         .build();
 
                 RetrofitService service1 = retrofit.create(RetrofitService.class);
-                Call<String> call = service1.deleteMusicFromPlaylist(playlistId, holder.text_music.getText().toString());
+                Call<String> call = service1.deleteMusicFromPlaylist(playlistId, Integer.toString(index));
                 call.enqueue(new Callback<String>(){
                     @Override
                     public void onResponse(Call<String> call, Response<String> response){
@@ -121,6 +126,9 @@ public class EditPlaylistAdapter extends RecyclerView.Adapter<EditPlaylistViewHo
         holder.text_music.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                arrayList.remove(index);
+                notifyItemRemoved(index);
+
                 Gson gson = new GsonBuilder().setLenient().create();
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(context.getResources().getString(R.string.address))
@@ -128,7 +136,7 @@ public class EditPlaylistAdapter extends RecyclerView.Adapter<EditPlaylistViewHo
                         .build();
 
                 RetrofitService service1 = retrofit.create(RetrofitService.class);
-                Call<String> call = service1.deleteMusicFromPlaylist(playlistId, holder.text_music.getText().toString());
+                Call<String> call = service1.deleteMusicFromPlaylist(playlistId, Integer.toString(index));
                 call.enqueue(new Callback<String>(){
                     @Override
                     public void onResponse(Call<String> call, Response<String> response){
@@ -152,6 +160,9 @@ public class EditPlaylistAdapter extends RecyclerView.Adapter<EditPlaylistViewHo
         holder.text_singer.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                arrayList.remove(index);
+                notifyItemRemoved(index);
+
                 Gson gson = new GsonBuilder().setLenient().create();
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(context.getResources().getString(R.string.address))
@@ -159,7 +170,7 @@ public class EditPlaylistAdapter extends RecyclerView.Adapter<EditPlaylistViewHo
                         .build();
 
                 RetrofitService service1 = retrofit.create(RetrofitService.class);
-                Call<String> call = service1.deleteMusicFromPlaylist(playlistId, holder.text_music.getText().toString());
+                Call<String> call = service1.deleteMusicFromPlaylist(playlistId, Integer.toString(index));
                 call.enqueue(new Callback<String>(){
                     @Override
                     public void onResponse(Call<String> call, Response<String> response){
