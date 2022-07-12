@@ -11,7 +11,7 @@
 
 ### A. 개발 팀원  
 * KAIST 전산학부 [박상빈](https://github.com/sbpark0611)  
-* KAIST 전산학부 [장지원](https://github.com/DebbieIsFree)  
+* 부산대  [장지원](https://github.com/DebbieIsFree)  
 ***
 
 ### B. 개발 환경  
