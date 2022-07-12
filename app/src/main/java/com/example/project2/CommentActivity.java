@@ -101,6 +101,7 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("musicName", musicName);
                 startActivity(intent);
             }
         });
