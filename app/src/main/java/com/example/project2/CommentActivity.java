@@ -29,6 +29,7 @@ public class CommentActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Button makeCommentBtn;
     EditText editText;
+    Button backBtn;
 
     List<String> comment;
 
@@ -54,6 +55,7 @@ public class CommentActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.editText);
         makeCommentBtn = findViewById(R.id.makeCommentBtn);
+        backBtn = findViewById(R.id.backBtn);
 
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -93,7 +95,15 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
 
-        ///
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()

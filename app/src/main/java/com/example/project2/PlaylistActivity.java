@@ -39,6 +39,8 @@ public class PlaylistActivity extends AppCompatActivity {
     Button playlistDeleteButton;
     ImageButton editPlaylistButton;
     String playlistId;
+    Button backBtn;
+
 
     private View decorView;
     private int	uiOption;
@@ -98,6 +100,15 @@ public class PlaylistActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PlaylistData> call, Throwable t){
                 Log.d("MY TAG", "onFailure: "+t.getMessage());
+            }
+        });
+
+        backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
 

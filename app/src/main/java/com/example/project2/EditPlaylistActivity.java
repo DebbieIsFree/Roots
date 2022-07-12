@@ -29,6 +29,7 @@ public class EditPlaylistActivity extends AppCompatActivity {
     EditPlaylistAdapter editPlaylistAdapter;
     Button finishEditPlaylistButton;
     String playlistId;
+    Button backBtn;
 
     private View decorView;
     private int	uiOption;
@@ -126,6 +127,15 @@ public class EditPlaylistActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), PlaylistActivity.class);
                 intent.putExtra("playlist_id", playlistId);
+                startActivity(intent);
+            }
+        });
+
+        backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
