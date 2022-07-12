@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ public class LikeListActivity extends AppCompatActivity {
     RankingAdapter rankingAdapter;
     RecyclerView recyclerView;
     JSONArray jsonArray;
+    Button backBtn;
 
     ArrayList<String> nameList = new ArrayList<String>();
 
@@ -104,6 +106,16 @@ public class LikeListActivity extends AppCompatActivity {
                 Log.d("MY TAG", "onFailure: "+t.getMessage());
             }
         });
+
+        backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 //        likeAdapter.setArrayData("댓글1");
 //        likeAdapter.setArrayData("댓글2");
