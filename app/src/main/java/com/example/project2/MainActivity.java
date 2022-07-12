@@ -1,5 +1,6 @@
 package com.example.project2;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
             UserData.getInstance().setNicknameData(preferences.getString("nickname",null));
             UserData.getInstance().setProfileImageData(preferences.getString("profileImage",null));
             UserData.getInstance().setRecordData(preferences.getString("record",null));
+        }
+        if(UserData.getInstance().getIdData() != null) {
+            View profile = findViewById(R.id.profile_button);
+            //new ImageLoadToMenu(UserData.getInstance().getProfileImageData(), profile).execute();
         }
 
         Log.d("hash", Utility.getKeyHash(this));
@@ -116,9 +121,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.profile_button:
                 profileButtonPushed();
                 return true;
-            case R.id.home_button:
-                homeButtonPushed();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -138,12 +140,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
-    public void homeButtonPushed(){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-    }
-
 
     public TabLayout getTabs() {
         return tabs;
