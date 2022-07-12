@@ -53,6 +53,9 @@ public class RecommendationFragment extends Fragment {
             arr.remove(n);
         }
 
+        //Log.e("random", Integer.toString(randomNum[0])+" "+Integer.toString(randomNum[1])+" "+
+        //        Integer.toString(randomNum[2])+" "+Integer.toString(randomNum[3])+" "+Integer.toString(randomNum[4]));
+
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getResources().getString(R.string.address))
@@ -67,7 +70,7 @@ public class RecommendationFragment extends Fragment {
             public void onResponse(Call<List<MusicData>> call, Response<List<MusicData>> response){
                 if(response.isSuccessful()){
                     List<MusicData> result = response.body();
-
+                    System.out.println("result: "+result.get(0).getName());
                     recommendPagerAdapter = new RecommendPagerAdapter(getContext(), result);
 
                     Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
