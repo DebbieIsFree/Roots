@@ -67,8 +67,8 @@ public class RecommendationFragment extends Fragment {
 
                     Log.d("MY TAG", "onResponse: 성공, 결과\n"+result);
                     viewPager.setAdapter(recommendPagerAdapter);
-//                    indicator = view.findViewById(R.id.indicator);
-//                    indicator.setViewPager(viewPager);
+                    indicator = view.findViewById(R.id.indicator);
+                    indicator.setViewPager(viewPager);
                 }
                 else{
                     Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
