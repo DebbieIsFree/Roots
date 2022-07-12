@@ -11,7 +11,7 @@
         android:title="프로필"
         app:showAsAction="always" />
 
-    <item android:id="@+id/logout_button"
-        android:title="로그아웃"
-        app:showAsAction="always" />
+    <item android:id="@+id/home_button"
+        android:title="홈"
+        app:showAsAction="always"/>
 </menu>

@@ -24,15 +24,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
     List<String> musicList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button btn = findViewById(R.id.btn2);
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button loginBtn = findViewById(R.id.login);
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(getApplicationContext())){
@@ -44,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
 //    @Override
     public void login(){
@@ -137,7 +134,5 @@ public class LoginActivity extends AppCompatActivity {
 
             return null;
         });
-
-
     }
 }

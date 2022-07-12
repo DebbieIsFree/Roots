@@ -203,8 +203,10 @@ public class PlayingMusic extends AppCompatActivity {
                 initalStage = true;
                 playPause = false;
                 btn.setText("Launch Streaming");
-                mediaPlayer.stop();
-                mediaPlayer.reset();
+                if(mediaPlayer != null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                }
 
                 movingSeekbarThread.interrupt();
 

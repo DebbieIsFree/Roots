@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/skyBlue"
     android:gravity="center"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".LoginActivity">
 
     <Button
-        android:id="@+id/btn2"
+        android:id="@+id/login"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/skyBlue"
