@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
@@ -20,10 +22,15 @@ public class YouNeedLoginActivity extends AppCompatActivity {
     Button gotoLoginButton;
     Button showAdButton;
 
+    String musicName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_you_need_login);
+
+        Intent getIntent = getIntent();
+        musicName = getIntent.getStringExtra("musicName");
 
         gotoLoginButton = (Button) findViewById(R.id.goto_login_button);
         gotoLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -38,18 +45,10 @@ public class YouNeedLoginActivity extends AppCompatActivity {
         showAdButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(showAdButton.getText().toString().equals("끝까지 듣기")){
-                    Intent intent = new Intent(getApplicationContext(), PlayingMusic.class);
-                    intent.putExtra("watchedAd", "true");
-                    startActivity(intent);
-                }
-                else {
-                    if (mInterstitialAd != null) {
-                        mInterstitialAd.show(YouNeedLoginActivity.this);
-                    } else {
-                        Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                    }
-                    showAdButton.setText("끝까지 듣기");
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(YouNeedLoginActivity.this);
+                } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
                 }
             }
         });
@@ -62,6 +61,34 @@ public class YouNeedLoginActivity extends AppCompatActivity {
                 // The mInterstitialAd reference will be null until
                 // an ad is loaded.
                 mInterstitialAd = interstitialAd;
+
+                mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                    @Override
+                    public void onAdDismissedFullScreenContent() {
+                        // Called when fullscreen content is dismissed.
+                        Log.d("TAG", "The ad was dismissed.");
+                        Intent intent = new Intent(getApplicationContext(), PlayingMusic.class);
+                        intent.putExtra("watchedAd", "true");
+                        intent.putExtra("musicName", musicName);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                        // Called when fullscreen content failed to show.
+                        Log.d("TAG", "The ad failed to show.");
+                    }
+
+                    @Override
+                    public void onAdShowedFullScreenContent() {
+                        // Called when fullscreen content is shown.
+                        // Make sure to set your reference to null so you don't
+                        // show it a second time.
+                        mInterstitialAd = null;
+                        Log.d("TAG", "The ad was shown.");
+                    }
+                });
+
                 Log.i("TAG", "onAdLoaded");
             }
 

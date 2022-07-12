@@ -63,6 +63,7 @@ public class PlayingMusic extends AppCompatActivity {
     String repeatMode;
     String index;
     String playlistId;
+    String musicName;
 
     Switch LikeSwitch;
 
@@ -81,7 +82,8 @@ public class PlayingMusic extends AppCompatActivity {
         baseurl = getResources().getString(R.string.address) + "musics/";
 
         Intent getIntent = getIntent();
-        url = baseurl + getIntent.getStringExtra("musicName") + ".wav";
+        musicName = getIntent.getStringExtra("musicName");
+        url = baseurl + musicName + ".wav";
 
         index = getIntent.getStringExtra("index");
         playlistId = getIntent.getStringExtra("playlist_id");
@@ -427,6 +429,7 @@ public class PlayingMusic extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                                 playClicked(seekBar, mediaPlayer);
+                                watchedAd = "false";
 
                                 return;
                             }
@@ -488,6 +491,7 @@ public class PlayingMusic extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             playClicked(seekBar, mediaPlayer);
+                            watchedAd = "false";
                         }
                     }
                 });
@@ -521,6 +525,7 @@ public class PlayingMusic extends AppCompatActivity {
             movingSeekbarThread.interrupt();
 
             Intent intent = new Intent(getApplicationContext(), YouNeedLoginActivity.class);
+            intent.putExtra("musicName", musicName);
             startActivity(intent);
         }
     };
