@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,13 +36,27 @@ public class PlaylistActivity extends AppCompatActivity {
     RankingAdapter rankingAdapter;
     Button playlistStartButton;
     Button playlistAddButton;
+    Button playlistDeleteButton;
     ImageButton editPlaylistButton;
     String playlistId;
+
+    private View decorView;
+    private int	uiOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
+
+        decorView = getWindow().getDecorView();
+        uiOption = getWindow().getDecorView().getSystemUiVisibility();
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH )
+            uiOption |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN )
+            uiOption |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT )
+            uiOption |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility( uiOption );
 
         Intent getIntent = getIntent();
         playlistId = getIntent.getStringExtra("playlist_id");
@@ -130,6 +145,39 @@ public class PlaylistActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SelectMusicActivity.class);
                 intent.putExtra("playlist_id", playlistId);
+                startActivity(intent);
+            }
+        });
+
+        playlistDeleteButton = (Button) findViewById(R.id.playlist_delete_button);
+        playlistDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Gson gson = new GsonBuilder().setLenient().create();
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(getResources().getString(R.string.address))
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
+
+                RetrofitService service1 = retrofit.create(RetrofitService.class);
+                Call<String> call = service1.deletePlaylist(UserData.getInstance().getIdData(), playlistId);
+                call.enqueue(new Callback<String>(){
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response){
+                        if(response.isSuccessful()){
+                            String result = response.body();
+                            Log.d("MY TAG", "onResponse: 성공 " + result);
+                        }
+                        else{
+                            Log.d("MY TAG", "onResponse: 실패 " + String.valueOf(response.code()));
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t){
+                        Log.d("MY TAG", "onFailure: "+t.getMessage());
+                    }
+                });
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

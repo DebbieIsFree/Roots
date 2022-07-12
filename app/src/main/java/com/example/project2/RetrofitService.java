@@ -72,6 +72,11 @@ public interface RetrofitService {
     Call<String> deleteMusicFromPlaylist(@Field("playlist_id") String playlist_id,
                                          @Field("index") String index );
 
+    @FormUrlEncoded
+    @PUT("delete-playlist")
+    Call<String> deletePlaylist(@Field("kakao_id") String kakao_id,
+                                @Field("playlist_id") String playlist_id );
+
     @GET("comment-data")
     Call<List<String>> getCommentData(@Query("music_name") String music_name);
 

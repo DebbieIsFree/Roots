@@ -71,12 +71,12 @@ public class PlayingMusic extends AppCompatActivity {
 
     Thread movingSeekbarThread;
 
+    String watchedAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
-
-
 
         baseurl = getResources().getString(R.string.address) + "musics/";
 
@@ -85,6 +85,11 @@ public class PlayingMusic extends AppCompatActivity {
 
         index = getIntent.getStringExtra("index");
         playlistId = getIntent.getStringExtra("playlist_id");
+
+        watchedAd = getIntent.getStringExtra("watchedAd");
+        if(watchedAd == null){
+            watchedAd = "false";
+        }
 
         repeatImage = (ImageView) findViewById(R.id.repeat_image);
         repeatMode = getIntent.getStringExtra("repeatMode");
@@ -353,7 +358,7 @@ public class PlayingMusic extends AppCompatActivity {
 
                     if(mp.isPlaying()) {
                         seekBar1.setProgress(mp.getCurrentPosition());
-                        if(mp.getCurrentPosition() > 10000 && UserData.getInstance().getIdData() == null){
+                        if(watchedAd.equals("false") && mp.getCurrentPosition() > 10000 && UserData.getInstance().getIdData() == null){
                             Message msg = handler.obtainMessage();
                             handler.sendMessage(msg);
                         }

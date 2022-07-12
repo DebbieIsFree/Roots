@@ -32,14 +32,27 @@
 
     <Button
         android:id="@+id/playlist_add_button"
-        android:backgroundTint="@color/skyBlue"
-        android:textStyle="bold"
-        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="204dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/skyBlue"
         android:text="추가"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/playlist_delete_button"
+        app:layout_constraintTop_toBottomOf="@+id/editPlaylistButton" />
+
+    <Button
+        android:id="@+id/playlist_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/skyBlue"
+        android:text="삭제"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editPlaylistButton" />
 
