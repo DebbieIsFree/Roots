@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.profile_button:
                 profileButtonPushed();
                 return true;
-            case R.id.logout_button:
-                logoutButtonPushed();
+            case R.id.home_button:
+                homeButtonPushed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -139,19 +139,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void logoutButtonPushed(){
-        if(UserData.getInstance().getIdData() != null) {
-            SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
-            editor.clear();
-            editor.commit();
-
-            UserData.getInstance().setIdData(null);
-            UserData.getInstance().setNicknameData(null);
-            UserData.getInstance().setProfileImageData(null);
-
-//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(intent);
-        }
+    public void homeButtonPushed(){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
 

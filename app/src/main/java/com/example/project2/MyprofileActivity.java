@@ -1,6 +1,7 @@
 package com.example.project2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -28,6 +29,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.example.project2.ImageLoadTask;
+import com.kakao.sdk.user.UserApiClient;
 
 public class MyprofileActivity extends AppCompatActivity {
     Button backBtn;
@@ -36,6 +38,7 @@ public class MyprofileActivity extends AppCompatActivity {
     TextView recordText;
     ImageView profile;
     JSONArray likelist;
+    Button logoutBtn;
 
     String baseurl;
     String url;
@@ -84,6 +87,27 @@ public class MyprofileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        logoutBtn = findViewById(R.id.logout);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(UserData.getInstance().getIdData() != null) {
+                    SharedPreferences.Editor editor = getSharedPreferences("UserData", MODE_PRIVATE).edit();
+                    editor.clear();
+                    editor.commit();
+
+                    UserData.getInstance().setIdData(null);
+                    UserData.getInstance().setNicknameData(null);
+                    UserData.getInstance().setProfileImageData(null);
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
 
         viewLikesBtn = findViewById(R.id.ViewLikesBtn);
         viewLikesBtn.setOnClickListener(new View.OnClickListener() {
