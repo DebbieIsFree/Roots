@@ -1,6 +1,8 @@
 package com.example.project2;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +38,33 @@ public class RecommendPagerAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.fragment_recommendation, container, false);
         ImageView imageView = view.findViewById(R.id.image);
-        TextView singer = view.findViewById(R.id.singer);
         TextView name = view.findViewById(R.id.name);
+        TextView singer = view.findViewById(R.id.singer);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context.getApplicationContext(), PlayingMusic.class);
+                intent.putExtra("musicName", name.getText().toString());
+                context.startActivity(intent);
+            }
+        });
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context.getApplicationContext(), PlayingMusic.class);
+                intent.putExtra("musicName", name.getText().toString());
+                context.startActivity(intent);
+            }
+        });
+        singer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context.getApplicationContext(), PlayingMusic.class);
+                intent.putExtra("musicName", name.getText().toString());
+                context.startActivity(intent);
+            }
+        });
 
         String imageUrl = context.getResources().getString(R.string.address) + "image/" + musicData.get(position).getName() + ".jpg";
         singer.setText(musicData.get(position).getSinger());

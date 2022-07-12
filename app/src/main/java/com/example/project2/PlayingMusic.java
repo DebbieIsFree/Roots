@@ -76,8 +76,6 @@ public class PlayingMusic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
 
-
-
         baseurl = getResources().getString(R.string.address) + "musics/";
 
         Intent getIntent = getIntent();

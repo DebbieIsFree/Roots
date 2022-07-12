@@ -2,11 +2,15 @@ package com.example.project2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,6 +38,8 @@ public class RecommendationFragment extends Fragment {
     int[] randomNum = new int[5];
     Random random = new Random();
 
+    String musicName;
+
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @NonNull Bundle saveInstanceState){
         View view = inflater.inflate(R.layout.fragment_recommendation, container, false);
         viewPager = view.findViewById(R.id.viewPager);
@@ -54,7 +60,6 @@ public class RecommendationFragment extends Fragment {
                 .build();
 
         RetrofitService service1 = retrofit.create(RetrofitService.class);
-
         Call<List<MusicData>> call = service1.randomdMusic(randomNum);
 
         call.enqueue(new Callback<List<MusicData>>(){
