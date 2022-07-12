@@ -26,7 +26,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RankingFragment extends Fragment {
-
     // Add RecyclerView member
     private RecyclerView recyclerView;
     RankingAdapter rankingAdapter;

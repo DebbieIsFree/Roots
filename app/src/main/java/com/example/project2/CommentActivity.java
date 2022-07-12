@@ -32,6 +32,8 @@ public class CommentActivity extends AppCompatActivity {
 
     List<String> comment;
 
+    String musicName;
+
     private View decorView;
     private int	uiOption;
 
@@ -50,7 +52,7 @@ public class CommentActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility( uiOption );
 
         Intent getIntent = getIntent();
-        String music = getIntent.getStringExtra("musicName");
+        musicName = getIntent.getStringExtra("musicName");
 
         editText = findViewById(R.id.editText);
         makeCommentBtn = findViewById(R.id.makeCommentBtn);
@@ -72,7 +74,7 @@ public class CommentActivity extends AppCompatActivity {
                         .build();
 
                 RetrofitService service1 = retrofit.create(RetrofitService.class);
-                Call<String> call = service1.postNewComment(music, editText.getText().toString());
+                Call<String> call = service1.postNewComment(musicName, editText.getText().toString());
                 call.enqueue(new Callback<String>(){
                     @Override
                     public void onResponse(Call<String> call, Response<String> response){
@@ -102,7 +104,7 @@ public class CommentActivity extends AppCompatActivity {
                 .build();
 
         RetrofitService service1 = retrofit.create(RetrofitService.class);
-        Call<List<String>> getCommentDataCall = service1.getCommentData(music);
+        Call<List<String>> getCommentDataCall = service1.getCommentData(musicName);
         getCommentDataCall.enqueue(new Callback<List<String>>(){
             @Override
             public void onResponse(Call<List<String>> getCommentDataCall, Response<List<String>> response){

@@ -61,6 +61,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder> {
         RetrofitService service1 = retrofit.create(RetrofitService.class);
 
         Call<MusicData> getMusicDataCall = service1.getMusicData(musicName);
+        System.out.println("name1: " + musicName);
 
         getMusicDataCall.enqueue(new Callback<MusicData>(){
             @Override
@@ -68,7 +69,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder> {
                 if(response.isSuccessful()){
                     MusicData result = response.body();
 
-                    System.out.println(result.getName());
+                    System.out.println("name2: " + result.getName());
 
                     String name = result.getName();
                     String singer = result.getSinger();
@@ -79,12 +80,14 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder> {
                     holder.text_singer.setText(singer);
                 }
                 else{
+                    System.out.println("name3: " + musicName);
                     Log.d("MY TAG", "onResponse: 실패 "+String.valueOf(response.code()));
                 }
             }
             @Override
             public void onFailure(Call<MusicData> getMusicDataCall, Throwable t){
                 Log.d("MY TAG", "onFailure: "+t.getMessage());
+                System.out.println("name4: " + musicName + t.getMessage());
             }
         });
 
