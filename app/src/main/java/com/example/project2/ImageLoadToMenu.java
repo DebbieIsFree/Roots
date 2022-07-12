@@ -46,7 +46,7 @@ class ImageLoadToMenu extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         super.onPostExecute(result);
-        view.setPointerIcon(PointerIcon.create(result, 0, 0));
+//        view.setPointerIcon(PointerIcon.create(result, 0, 0));
     }
 
 }

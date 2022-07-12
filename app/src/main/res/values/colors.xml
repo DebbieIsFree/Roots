@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="monoBlack">#3B3B3B</color>
     <color name="skyBlue">#87CEFA</color>
+    <color name="lightSky">#87CEFA</color>
 </resources>
