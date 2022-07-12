@@ -43,9 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             uiOption |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility( uiOption );
 
-        Button btn = findViewById(R.id.btn2);
-
-        btn.setOnClickListener(new View.OnClickListener() {
         Button loginBtn = findViewById(R.id.login);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
