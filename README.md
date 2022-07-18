@@ -21,7 +21,7 @@
 
 ### C. 어플리케이션 소개  
 ### TAB 1 - Home  
-![Screenshot_20220713_204644](https://user-images.githubusercontent.com/83392219/178729081-2c756145-6167-442a-a678-f3830d46728f.png)
+![Collage Maker-18-Jul-2022-02 36-PM](https://user-images.githubusercontent.com/83392219/179450601-8c2b0a7c-4301-4421-a300-223c3adcdf86.jpg)
 
 #### Major features   
 * 새로운 플레이 리스트를 만들 수 있습니다.
@@ -74,11 +74,19 @@
 
 
 #### 로그인 #### 
-![Collage Maker-18-Jul-2022-02 15-PM](https://user-images.githubusercontent.com/83392219/179449081-914cc547-1358-4512-a111-80c1339f7e9b.jpg)
+![Collage Maker-18-Jul-2022-02 22-PM](https://user-images.githubusercontent.com/83392219/179449632-213df6d4-2f5e-4cc2-9841-7aa1bb1090fd.jpg)
 1. 카카오톡 로그인 API를 사용하여 로그인 기능을 구현했습니다.
 2. 실제 카카오톡 계정에서 프로필과 이름 정보를 가져왔습니다.
 
 #### 노래 10초 듣기 기능 ####
+![limit](https://user-images.githubusercontent.com/83392219/179450106-ff5d0d71-b0da-4344-9402-dcf77bb31282.png)
+1. 로그인을 하지 않으면 노래 듣기가 10초로 제한됩니다.
 
 
 #### 광고 기능 ####
+![Collage Maker-18-Jul-2022-02 34-PM](https://user-images.githubusercontent.com/83392219/179450450-9a517998-ad41-4875-a247-f8d897b52c3a.jpg)
+1. 로그인을 하지 않으면 10초만 미리 듣기가 가능한데, 이때 광고를 시청하면 10초 듣기 제한이 없어집니다.
+
+
+#### 서버 스트리밍 기술 #### 
+서버에 저장된 음원 파일을 그냥 가져온 것이 아니라..... 상빈아 네가 써라....!!!
