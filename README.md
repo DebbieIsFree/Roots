@@ -6,12 +6,10 @@
 * 플레이 리스트로 좋아하는 음악을 저장하고 관리할 수 있습니다.  
 * 랜덤으로 음악을 추천받을 수 있습니다.  
 
-![MainPage](https://user-images.githubusercontent.com/63276842/148056550-1f43af05-117b-4e8d-b836-e8171faa55b6.png)  
-***
 
 ### A. 개발 팀원  
 * KAIST 전산학부 [박상빈](https://github.com/sbpark0611)  
-* 부산대  [장지원](https://github.com/DebbieIsFree)  
+* 부산대 정보컴퓨터공학과 [장지원](https://github.com/DebbieIsFree)  
 ***
 
 ### B. 개발 환경  
@@ -34,10 +32,6 @@
   * [시작] 버튼을 누르면 해당 플레이 리스트를 재생하는 화면으로 전환됩니다.  
   
 #### 기술 설명  
-* Recycler View를 이용하여 저장된 인물정보를 보여준다. 보여줄 인물이 많을 경우 넘어가 보이지 않는 view를 재사용한다.  
-* 연락처를 저장할 때에는 사용자로부터 받은 데이터를 json file 형식으로 변환하여 local storage에 저장한다.  
-* 앱 실행시 기존에 저장해두었던 jsonfile을 로드하여 인물정보를 보여준다.  
-* 인물 정보를 저장할 때 도로명 주소를 받아오기 위해 다음 도로명 주소 api를 이용한다.  
 ***
 
 ### TAB 2 - Recommendation 
@@ -48,7 +42,7 @@
 
 #### Major features   
 * 사용자에게 무작위로 음악 5곡을 추천해줍니다.
- * 난수가 중복되지 않도록 코드를 작성하여 노래가 겹치지 않도록 추천해줍니다.
+ * 난수가 중복되지 않도록 코드를 작성하여 노래가 겹치지 않습니다.
  * 좌,우로 스와이프하여 추천 노래를 구경할 수 있습니다.  
  * 노래 제목, 가수 이름, 앨범 이미지를 누르면 해당 곡을 바로 들을 수 있는 페이지로 이동합니다.
 
@@ -58,22 +52,33 @@
 2. Front와 Back으로 나눈 후 animation를 활용하여 Card가 Flip되는 효과를 구현했습니다.  
 
 ### TAB 3 - Ranking  
-![page3](https://user-images.githubusercontent.com/63276842/148057789-49047c7d-5829-42c5-9ce2-1221ff2f84b6.png)  
-
+![tab3_ranking](https://user-images.githubusercontent.com/83392219/179447068-cd8bf7b1-5b41-4d4e-bce4-e88d4f1667cb.png)
+  
 #### Major features   
-* 홈파티 이름, 일정, 참가자 등의 정보를 작성하여 티켓을 생성할 수 있습니다.  
-* 이미 만들어진 티켓의 바코드를 스캔하여 데이터를 저장할 수 있습니다.  
-***
+*** 
 
-#### 기술 설명  
-1. 티켓 생성  
-* 사용자가 파티 정보를 하나씩 입력할 때마다 마치 티켓이 인쇄되는 듯한 효과를 구현하였습니다.  
-* 사용자 입력에 대한 반응이 시각적으로 전달되도록 [ObjectAnimator](https://developer.android.com/reference/android/animation/ObjectAnimator) 클래스를 사용하였습니다.  
-* 예를 들어, 사용자가 선택한 색상이 크게 강조되는 효과가 다음과 같이 구현되었습니다.  
-* 또한, 입력의 변화가 일어날 때마다 결과가 즉시 보여지도록 Custom EventListener를 사용하여 직접 애니메이션 효과를 구현하기도 했습니다.  
-* 입력 페이지가 넘어갈 때 마다 티켓이 올라오는 효과는 ViewPager.OnPageChangeListener를 오버라이드하여 구현되었습니다.  
 
-2. 티켓 불러오기  
-* [ZXing](https://github.com/journeyapps/zxing-android-embedded) 라이브러리를 이용하여 각 티켓의 정보를 담고 있는 바코드를 생성하고 스캔하는 기능을 구현하였습니다. 
+### TAB 4 - 공통 기능 
+#### 노래 검색 ####
+![Collage Maker-18-Jul-2022-01 52-PM](https://user-images.githubusercontent.com/83392219/179447296-80f1cd74-130e-41ab-8973-c44dc0869eed.jpg)
+1. 검색 기능을 통해 원하는 노래를 찾을 수 있습니다.
+2. 노래 제목을 다 입력하지 않아도 자동 완성으로 노래를 찾아 알파벳순으로 정렬하여 보여줍니다.
 
-### TAB 4 - 공통 기능  
+
+#### 댓글 달기 ####
+![Collage Maker-18-Jul-2022-01 58-PM](https://user-images.githubusercontent.com/83392219/179447829-4df8738f-fa35-4de7-925e-84ac4417b5c9.jpg)
+1. 로그인을 한 상태이면 댓글을 달 수 있습니다.
+2. 로그인을 하지 않았다면 로그인을 하라는 메세지가 뜹니다.
+3. 댓글을 달면 데이터베이스에 저장됩니다.
+4. 이때까지 썼던 댓글들은 데이터베이스에서 가져오고, 이를 화면에 리사이클러뷰로 보여줍니다.
+
+
+#### 로그인 #### 
+![Collage Maker-18-Jul-2022-02 15-PM](https://user-images.githubusercontent.com/83392219/179449081-914cc547-1358-4512-a111-80c1339f7e9b.jpg)
+1. 카카오톡 로그인 API를 사용하여 로그인 기능을 구현했습니다.
+2. 실제 카카오톡 계정에서 프로필과 이름 정보를 가져왔습니다.
+
+#### 노래 10초 듣기 기능 ####
+
+
+#### 광고 기능 ####
