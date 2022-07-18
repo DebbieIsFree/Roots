@@ -1,5 +1,5 @@
 # Roots
-> Flow Week2 4분반 8팀 (박상빈, 장지원) 
+> Flow Week2 -- 4분반 8팀 (박상빈, 장지원) 
 
 * 다양한 음악을 들을 수 있게 해주는 Android 기반 어플리케이션입니다.  
 * 플레이 리스트로 좋아하는 음악을 저장하고 관리할 수 있습니다.  
@@ -17,12 +17,12 @@
 * IDE: Android Studio  
 * Target Device: Galaxy S7  
 ***
-#### 첫 화면 ####
-<img src="https://user-images.githubusercontent.com/83392219/179450883-b3f74b2c-fbd8-492b-84e5-0f4042e916d5.png"  width="370" height="600"/>
 
 
 ### C. 어플리케이션 소개  
 ### TAB 1 - Home  
+![Collage Maker-18-Jul-2022-02 56-PM](https://user-images.githubusercontent.com/83392219/179452336-12034973-5831-4752-9b8d-99e156ca2a96.jpg)
+
 ![Collage Maker-18-Jul-2022-02 36-PM](https://user-images.githubusercontent.com/83392219/179450601-8c2b0a7c-4301-4421-a300-223c3adcdf86.jpg)
 
 #### Major features   
@@ -88,6 +88,12 @@
 <img src="https://user-images.githubusercontent.com/83392219/179450450-9a517998-ad41-4875-a247-f8d897b52c3a.jpg"  width="80%" height="80%"/>
 1. 로그인을 하지 않으면 10초만 미리 듣기가 가능한데, 이때 광고를 시청하면 10초 듣기 제한이 없어집니다.
 
+
+#### 좋아요 기능 ####
+![Collage Maker-18-Jul-2022-02 54-PM](https://user-images.githubusercontent.com/83392219/179452179-39133854-544f-4116-8aee-e0e3fad0d486.jpg)
+1. 노래를 듣다가 좋아요 라디오 버튼을 누르면 데이터베이스에 저장됩니다.
+2. 로그인 후 프로필에 들어가서 [좋아요 목록 보기] 버튼을 누르면 이때까지 좋아요를 누른 노래를 확인할 수 있습니다.
+3. 좋아요 목록에서 노래를 클릭하면 재생 화면으로 전환됩니다.
 
 #### 서버 스트리밍 기술 #### 
 서버에 저장된 음원 파일을 그냥 가져온 것이 아니라..... 상빈아 네가 써라....!!!
