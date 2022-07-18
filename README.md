@@ -1,7 +1,6 @@
 # Roots
 > Flow Week2 4분반 8팀 (박상빈, 장지원) 
 
-
 * 다양한 음악을 들을 수 있게 해주는 Android 기반 어플리케이션입니다.  
 * 플레이 리스트로 좋아하는 음악을 저장하고 관리할 수 있습니다.  
 * 랜덤으로 음악을 추천받을 수 있습니다.  
@@ -18,6 +17,9 @@
 * IDE: Android Studio  
 * Target Device: Galaxy S7  
 ***
+#### 첫 화면 ####
+<img src="https://user-images.githubusercontent.com/83392219/179450883-b3f74b2c-fbd8-492b-84e5-0f4042e916d5.png"  width="370" height="600"/>
+
 
 ### C. 어플리케이션 소개  
 ### TAB 1 - Home  
@@ -35,10 +37,9 @@
 ***
 
 ### TAB 2 - Recommendation 
-![Collage Maker-13-Jul-2022-09 13-PM](https://user-images.githubusercontent.com/83392219/178730794-ec049fb6-d981-4abc-bd51-af2b5040b14f.jpg)
+<img src="https://user-images.githubusercontent.com/83392219/178730794-ec049fb6-d981-4abc-bd51-af2b5040b14f.jpg"  width="80%" height="80%"/>
 
-![Collage Maker-13-Jul-2022-09 21-PM](https://user-images.githubusercontent.com/83392219/178732215-f60547e0-ec2e-4402-b42c-a34088e9fd26.jpg)
-
+<img src="https://user-images.githubusercontent.com/83392219/178732215-f60547e0-ec2e-4402-b42c-a34088e9fd26.jpg"  width="80%" height="80%"/>
 
 #### Major features   
 * 사용자에게 무작위로 음악 5곡을 추천해줍니다.
@@ -52,7 +53,7 @@
 2. Front와 Back으로 나눈 후 animation를 활용하여 Card가 Flip되는 효과를 구현했습니다.  
 
 ### TAB 3 - Ranking  
-![tab3_ranking](https://user-images.githubusercontent.com/83392219/179447068-cd8bf7b1-5b41-4d4e-bce4-e88d4f1667cb.png)
+<img src="https://user-images.githubusercontent.com/83392219/179447068-cd8bf7b1-5b41-4d4e-bce4-e88d4f1667cb.png"  width="370" height="600"/>  
   
 #### Major features   
 *** 
@@ -60,13 +61,13 @@
 
 ### TAB 4 - 공통 기능 
 #### 노래 검색 ####
-![Collage Maker-18-Jul-2022-01 52-PM](https://user-images.githubusercontent.com/83392219/179447296-80f1cd74-130e-41ab-8973-c44dc0869eed.jpg)
+<img src="https://user-images.githubusercontent.com/83392219/179447296-80f1cd74-130e-41ab-8973-c44dc0869eed.jpg"  width="80%" height="80%"/>
 1. 검색 기능을 통해 원하는 노래를 찾을 수 있습니다.
 2. 노래 제목을 다 입력하지 않아도 자동 완성으로 노래를 찾아 알파벳순으로 정렬하여 보여줍니다.
 
 
 #### 댓글 달기 ####
-![Collage Maker-18-Jul-2022-01 58-PM](https://user-images.githubusercontent.com/83392219/179447829-4df8738f-fa35-4de7-925e-84ac4417b5c9.jpg)
+<img src="https://user-images.githubusercontent.com/83392219/179447829-4df8738f-fa35-4de7-925e-84ac4417b5c9.jpg"  width="80%" height="80%"/>
 1. 로그인을 한 상태이면 댓글을 달 수 있습니다.
 2. 로그인을 하지 않았다면 로그인을 하라는 메세지가 뜹니다.
 3. 댓글을 달면 데이터베이스에 저장됩니다.
@@ -79,12 +80,12 @@
 2. 실제 카카오톡 계정에서 프로필과 이름 정보를 가져왔습니다.
 
 #### 노래 10초 듣기 기능 ####
-![limit](https://user-images.githubusercontent.com/83392219/179450106-ff5d0d71-b0da-4344-9402-dcf77bb31282.png)
+<img src="https://user-images.githubusercontent.com/83392219/179450106-ff5d0d71-b0da-4344-9402-dcf77bb31282.png"  width="370" height="600"/>  
 1. 로그인을 하지 않으면 노래 듣기가 10초로 제한됩니다.
 
 
 #### 광고 기능 ####
-![Collage Maker-18-Jul-2022-02 34-PM](https://user-images.githubusercontent.com/83392219/179450450-9a517998-ad41-4875-a247-f8d897b52c3a.jpg)
+<img src="https://user-images.githubusercontent.com/83392219/179450450-9a517998-ad41-4875-a247-f8d897b52c3a.jpg"  width="80%" height="80%"/>
 1. 로그인을 하지 않으면 10초만 미리 듣기가 가능한데, 이때 광고를 시청하면 10초 듣기 제한이 없어집니다.
 
 
