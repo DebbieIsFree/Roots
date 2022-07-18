@@ -21,7 +21,7 @@
 
 ### C. 어플리케이션 소개  
 ### TAB 1 - Home  
-![Collage Maker-18-Jul-2022-02 56-PM](https://user-images.githubusercontent.com/83392219/179452336-12034973-5831-4752-9b8d-99e156ca2a96.jpg)
+<img src="https://user-images.githubusercontent.com/83392219/179452336-12034973-5831-4752-9b8d-99e156ca2a96.jpg"  width="80%" height="80%"/>
 
 ![Collage Maker-18-Jul-2022-02 36-PM](https://user-images.githubusercontent.com/83392219/179450601-8c2b0a7c-4301-4421-a300-223c3adcdf86.jpg)
 
